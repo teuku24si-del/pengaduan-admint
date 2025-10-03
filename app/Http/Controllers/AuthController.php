@@ -4,32 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class AuthController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-          $data = [
-	      'Total_Warga'        => '1,254',
-	      'Pengaduan_Baru'      => '42',
-	      'dlm_Proses' => '18',
-          'Judul1'        => 'Jalan Rusak di jalan kenanga',
-	      'Judul2'      => 'Lampu Jalan Mati',
-	      'Judul3' => 'Saluran Air Tersumbat',
-          'nama1'        => 'Hasbi',
-	      'nama2'      => 'Alfi',
-	      'nama3' => 'Auzi',
-          'tgl1'        => '2024-06-10',
-	      'tgl2'      => '2025-10-19',
-	      'tgl3' => '2025-07-21',
-
-	  ];
-      return view('home', $data);
-
-
-
+        return view('form-hal-login');
     }
 
     /**
@@ -45,7 +27,22 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-       //
+		    $request->validate([
+            'username' => 'required|max:20',
+            'password' => 'required|min:3|regex:/[A-Z]/',
+        ], [
+            'username.required' => 'Username tidak boleh kosong',
+            'username.max' => 'Username maksimal 20 karakter',
+            'password.required' => 'Password tidak boleh kosong',
+            'password.min' => 'Password minimal 3 karakter',
+            'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital'
+        ]);
+
+        $data['username'] = $request->username;
+        $data['password'] = $request->password;
+
+        return view('respon-login', $data);
+
     }
 
     /**

@@ -1,10 +1,20 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\adminController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home',[HomeController::class,'index']);
+#Route::get('/home',[HomeController::class,'index']);
+
+//halaman login
+Route::get('Auth', [AuthController::class, 'index'])->name('Auth.index');
+Route::post('Auth/store', [AuthController::class, 'store'])->name('Auth.store');
+
+
+//route ke halaman home
+Route::get('/home', [HomeController::class, 'index'])->name('Home.index');
