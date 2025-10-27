@@ -113,16 +113,16 @@
             </div>
 
             <div class="form-group">
+                <label for="email">email</label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+
+            <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="password" required>
             </div>
 
             <button type="submit" class="btn-login">Login</button>
-
-              <div class="register-link">
-            <p>Belum punya akun? <a href="{{ route('Auth.regis') }}">Klik disini</a></p>
-        </div>
-    </div>
         </form>
     </div>
 </body>

@@ -22,6 +22,11 @@ class AuthController extends Controller
         //
     }
 
+     public function regis()
+    {
+        return view('register');
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -41,7 +46,7 @@ class AuthController extends Controller
         $data['username'] = $request->username;
         $data['password'] = $request->password;
 
-        return view('respon-login', $data);
+        return view('admin.dashboard', $data);
 
     }
 

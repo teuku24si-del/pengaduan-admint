@@ -7,24 +7,7 @@
                             <span class="menu-title">Data warga</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                            aria-controls="ui-basic">
-                            <span class="icon-bg"><i class="mdi mdi-crosshairs-gps menu-icon"></i></span>
-                            <span class="menu-title">UI Elements</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="pages/ui-features/buttons.html">Buttons</a></li>
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="pages/ui-features/typography.html">Typography</a></li>
-                            </ul>
-                        </div>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('kategori_pengaduan.create') }}">
                             <span class="icon-bg"><i class="mdi mdi-contacts menu-icon"></i></span>
@@ -32,9 +15,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages/forms/basic_elements.html">
+                        <a class="nav-link" href="{{ route('user.create') }}">
                             <span class="icon-bg"><i class="mdi mdi-format-list-bulleted menu-icon"></i></span>
-                            <span class="menu-title">Forms</span>
+                            <span class="menu-title">user</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -60,9 +43,9 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank
                                         Page </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a>
+                                <li class="nav-item"> <a class="nav-link" href="{{route('Auth.index')}}"> Login </a>
                                 </li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html">
+                                <li class="nav-item"> <a class="nav-link" href="{{route('Auth.regis')}}">
                                         Register </a></li>
                                 <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404
                                     </a></li>
