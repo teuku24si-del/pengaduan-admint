@@ -1,7 +1,12 @@
  <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item nav-category">Main</li>
-                    
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('dashboard') }}">
+                            <span class="icon-bg"><i class="mdi mdi-chart-bar menu-icon"></i></span>
+                            <span class="menu-title">Dashboard</span>
+
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ route('warga.create') }}">
                             <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
@@ -21,18 +26,10 @@
                             <span class="menu-title">user</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/charts/chartjs.html">
-                            <span class="icon-bg"><i class="mdi mdi-chart-bar menu-icon"></i></span>
-                            <span class="menu-title">Dashboard</span>
+
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/tables/basic-table.html">
-                            <span class="icon-bg"><i class="mdi mdi-table-large menu-icon"></i></span>
-                            <span class="menu-title">Tables</span>
-                        </a>
-                    </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false"
                             aria-controls="auth">
@@ -42,16 +39,12 @@
                         </a>
                         <div class="collapse" id="auth">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank
-                                        Page </a></li>
+
                                 <li class="nav-item"> <a class="nav-link" href="{{route('Auth.index')}}"> Login </a>
                                 </li>
                                 <li class="nav-item"> <a class="nav-link" href="{{route('Auth.regis')}}">
                                         Register </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404
-                                    </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500
-                                    </a></li>
+
                             </ul>
                         </div>
                     </li>

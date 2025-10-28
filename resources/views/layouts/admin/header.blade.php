@@ -21,31 +21,8 @@
                     </form>
                 </div>
                 <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item  dropdown d-none d-md-block">
-                        <a class="nav-link dropdown-toggle" id="reportDropdown" href="#" data-toggle="dropdown"
-                            aria-expanded="false"> Reports </a>
-                        <div class="dropdown-menu navbar-dropdown" aria-labelledby="reportDropdown">
-                            <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-file-pdf mr-2"></i>PDF </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-file-excel mr-2"></i>Excel </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-file-word mr-2"></i>doc </a>
-                        </div>
-                    </li>
-                    <li class="nav-item  dropdown d-none d-md-block">
-                        <a class="nav-link dropdown-toggle" id="projectDropdown" href="#" data-toggle="dropdown"
-                            aria-expanded="false"> Projects </a>
-                        <div class="dropdown-menu navbar-dropdown" aria-labelledby="projectDropdown">
-                            <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-eye-outline mr-2"></i>View Project </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-pencil-outline mr-2"></i>Edit Project </a>
-                        </div>
-                    </li>
+
+                   
 
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" id="profileDropdown" href="#"
