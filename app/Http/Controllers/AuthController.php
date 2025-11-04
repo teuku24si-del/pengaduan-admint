@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -22,7 +23,7 @@ class AuthController extends Controller
         //
     }
 
-     public function regis()
+    public function regis()
     {
         return view('register');
     }
@@ -32,21 +33,16 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-		    $request->validate([
-            'username' => 'required|max:20',
-            'password' => 'required|min:3|regex:/[A-Z]/',
-        ], [
-            'username.required' => 'Username tidak boleh kosong',
-            'username.max' => 'Username maksimal 20 karakter',
-            'password.required' => 'Password tidak boleh kosong',
-            'password.min' => 'Password minimal 3 karakter',
-            'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital'
-        ]);
-
-        $data['username'] = $request->username;
+        $data['name']    = $request->name;
         $data['password'] = $request->password;
 
-        return view('admin.dashboard', $data);
+        $user = User::where('name', $data['name'])->first();
+
+        if ($user && Hash::check($data['password'], $user->password)) {
+            return redirect()->route('dashboard')->with('success', 'Login Berhasil!');
+        } else {
+            return redirect()->route('Auth.index')->with('error', 'Email atau Password Salah!');
+        }
 
     }
 

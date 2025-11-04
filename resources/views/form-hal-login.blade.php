@@ -1,132 +1,244 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Login Sederhana</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background-color: #f5f5f5;
+            height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            overflow: hidden;
         }
 
-        .login-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* Bagian kiri (gambar) */
+        .left-side {
+            flex: 1;
+            background-size: cover;
             width: 100%;
+            height: 100vh;
+        }
+
+        /* Bagian kanan (form login) */
+        .right-side {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #3ceb07 0%, #2575fc 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background pattern untuk bagian kanan */
+        .right-side::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        /* Form login tanpa card */
+        .login-form {
+            width: 80%;
             max-width: 400px;
-            padding: 30px;
+            padding: 40px;
+            position: relative;
+            z-index: 2;
+            color: white;
         }
 
-        .login-header {
+        .login-form h2 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
         }
 
-        .login-header h1 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .login-header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
+        .login-form label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
             font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        .form-control {
+        .login-form input {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
         }
 
-        .form-control:focus {
-            border-color: #4a90e2;
+        .login-form input:focus {
             outline: none;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
         }
 
-        .btn-login {
+        .login-form button {
             width: 100%;
             padding: 12px;
-            background-color: #4a90e2;
-            color: white;
+            background-color: white;
             border: none;
-            border-radius: 4px;
+            color: #2575fc;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
 
-        .btn-login:hover {
-            background-color: #3a7bc8;
+        .login-form button:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form p {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .login-form a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-form a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Animasi floating elements */
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            left: 80%;
+            animation-delay: -5s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .left-side {
+                height: 40vh;
+            }
+
+            .right-side {
+                height: 60vh;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="login-container">
-        <div class="login-header">
-            <h1>Login</h1>
-            <p>Masukkan username dan password Anda</p>
+
+    <div class="left-side">
+        <img src="{{ asset('assets/images/desa.jpg') }}" alt=""
+            style="width: 100%; height: 100%; object-fit: cover;" />
+    </div>
+
+    <div class="right-side">
+        <!-- Floating elements background -->
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
         </div>
 
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+        <!-- Form login tanpa card -->
 
-        <form action="{{ route('Auth.store') }}" method="POST">
-	@csrf
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" name="username" required>
-            </div>
 
-            <div class="form-group">
+        <div class="login-form">
+            <h2>Login</h2>
+            <form action="{{ route('Auth.store') }}" method="POST">
+                @csrf
+                <label for="username">Username atau Email</label>
+                <input type="text" id="name" name="name" placeholder="Masukkan username atau email" required>
+
                 <label for="password">Password</label>
-                <input type="password" class="form-control" name="password" required>
-            </div>
+                <input type="password" id="password" name="password"  placeholder="Masukkan password" required>
 
-            <button type="submit" class="btn-login">Login</button>
+                <button type="submit">Login</button>
 
-              <div class="register-link">
-            <p>Belum punya akun? <a href="{{ route('Auth.regis') }}">Klik disini</a></p>
+                <p>Belum punya akun? <a href="{{ route('Auth.regis') }}">Daftar di sini</a></p>
+            </form>
         </div>
     </div>
-        </form>
-    </div>
+
 </body>
+
 </html>
-
-
-
