@@ -13,7 +13,7 @@ class Kategori_pengaduanController extends Controller
     public function index()
     {
          $data['datakategori_pengaduan'] = kategori_pengaduan::all();
-		return view('admin.kategori_pengaduan.index',$data);
+		return view('pages.kategori_pengaduan.index',$data);
     }
 
     /**
@@ -21,7 +21,7 @@ class Kategori_pengaduanController extends Controller
      */
     public function create()
     {
-        return view('admin.kategori_pengaduan.create');
+        return view('pages.kategori_pengaduan.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class Kategori_pengaduanController extends Controller
     public function edit(string $id)
     {
          $data['datakategori_pengaduan'] = kategori_pengaduan::findOrFail($id);
-    return view('admin.kategori_pengaduan.edit', $data);
+    return view('pages.kategori_pengaduan.edit', $data);
     }
 
     /**
