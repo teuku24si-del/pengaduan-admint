@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -29,21 +30,58 @@ class AuthController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage - untuk LOGIN
      */
     public function store(Request $request)
     {
-        $data['name']    = $request->name;
-        $data['password'] = $request->password;
+        $request->validate([
+            'name' => 'required|string',
+            'password' => 'required|string'
+        ]);
 
-        $user = User::where('name', $data['name'])->first();
+        // Coba login dengan email atau username
+        $credentials = $request->only('name', 'password');
 
-        if ($user && Hash::check($data['password'], $user->password)) {
-            return redirect()->route('dashboard')->with('success', 'Login Berhasil!');
-        } else {
-            return redirect()->route('Auth.index')->with('error', 'Email atau Password Salah!');
+        // Cari user berdasarkan email atau username
+        $user = User::where('email', $credentials['name'])
+                    ->orWhere('name', $credentials['name'])
+                    ->first();
+
+        if ($user && Hash::check($credentials['password'], $user->password)) {
+            // Login berhasil
+            Auth::login($user);
+
+            // Redirect ke dashboard
+            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
         }
 
+        return back()->withErrors([
+            'name' => 'The provided credentials do not match our records.',
+        ])->withInput();
+    }
+
+    /**
+     * Store register - untuk REGISTER
+     */
+    public function storeRegister(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Buat user baru dengan password yang di-hash
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Login otomatis setelah register
+        Auth::login($user);
+
+        return redirect()->route('dashboard')->with('success', 'Registrasi berhasil!');
     }
 
     /**

@@ -18,8 +18,8 @@ Route::get('/', function () {
 //halaman login
 Route::get('Auth/login', [AuthController::class, 'index'])->name('Auth.index');
 Route::get('Auth/regis', [AuthController::class, 'regis'])->name('Auth.regis');
-// Route::post('Auth/store', [AuthController::class, 'store'])->name('Auth.store');
-Route::resource('Auth', AuthController::class); 
+Route::post('Auth/store', [AuthController::class, 'store'])->name('Auth.store');
+// Route::resource('Auth', AuthController::class);
 
 
 //route ke halaman home
