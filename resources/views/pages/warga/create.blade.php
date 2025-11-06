@@ -1,106 +1,157 @@
-      @extends('layouts.admin.app')
+@extends('layouts.admin.app')
 
-      @section('content')
-                <div class="content-wrapper">
-                    <div class="row" id="proBanner">
-                        <div class="col-12">
-                            <span class="d-flex align-items-center purchase-popup">
-                                <p>Like what you see? Check out our premium version for more.</p>
-                                <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template" target="_blank" class="btn ml-auto download-button">Download Free Version</a>
-                                <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/" target="_blank" class="btn purchase-button">Upgrade To Pro</a>
-                                <i class="mdi mdi-close" id="bannerClose"></i>
-                            </span>
-                        </div>
-                    </div>
+@section('content')
+          <div class="content-wrapper">
+              <div class="row" id="proBanner">
+                  <div class="col-12">
+                      <span class="d-flex align-items-center purchase-popup">
+                          <p>Like what you see? Check out our premium version for more.</p>
+                          <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template" target="_blank" class="btn ml-auto download-button">Download Free Version</a>
+                          <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/" target="_blank" class="btn purchase-button">Upgrade To Pro</a>
+                          <i class="mdi mdi-close" id="bannerClose"></i>
+                      </span>
+                  </div>
+              </div>
 
-                    <div class="row">
-                        <div class="col-md-12 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Tambah Data Warga</h4>
-                                    <p class="card-description">Isi form berikut untuk menambahkan data warga baru</p>
+              <div class="row">
+                  <div class="col-md-12 grid-margin stretch-card">
+                      <div class="card">
+                          <div class="card-body">
+                              <h4 class="card-title">Tambah Data Warga</h4>
+                              <p class="card-description">Isi form berikut untuk menambahkan data warga baru</p>
 
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul class="mb-0">
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
+                              @if ($errors->any())
+                                  <div class="alert alert-danger">
+                                      <ul class="mb-0">
+                                          @foreach ($errors->all() as $error)
+                                              <li>{{ $error }}</li>
+                                          @endforeach
+                                      </ul>
+                                  </div>
+                              @endif
 
-                                    @if (session('success'))
-                                        <div class="alert alert-success">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
+                              @if (session('success'))
+                                  <div class="alert alert-success">
+                                      {{ session('success') }}
+                                  </div>
+                              @endif
 
-                                    <form class="forms-sample" action="{{ route('warga.store') }}" method="POST">
-                                        @csrf
+                              <form class="forms-sample" action="{{ route('warga.store') }}" method="POST">
+                                  @csrf
 
-                                        <div class="form-group">
-                                            <label for="nama">nama</label>
-                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama lengkap" value="{{ old('nama') }}" required>
-                                        </div>
+                                  <div class="form-group">
+                                      <label for="nama">nama</label>
+                                      <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama lengkap" value="{{ old('nama') }}" required>
+                                  </div>
 
-                                        <div class="form-group">
-                                            <label for="agama">agama</label>
-                                            <select class="form-control" id="agama" name="agama" required>
-                                                <option value="">Pilih Agama</option>
-                                                <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
-                                                <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
-                                                <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
-                                                <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                                                <option value="Buddha" {{ old('agama') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
-                                                <option value="Konghucu" {{ old('agama') == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
-                                            </select>
-                                        </div>
+                                  <div class="form-group">
+                                      <label for="agama">agama</label>
+                                      <select class="form-control" id="agama" name="agama" required>
+                                          <option value="">Pilih Agama</option>
+                                          <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                          <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                                          <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                                          <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                          <option value="Buddha" {{ old('agama') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                                          <option value="Konghucu" {{ old('agama') == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
+                                      </select>
+                                  </div>
 
-                                        <div class="form-group">
-                                            <label for="pekerjaan">pekerjaan</label>
-                                            <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" placeholder="Masukkan pekerjaan" value="{{ old('pekerjaan') }}" required>
-                                        </div>
+                                  <div class="form-group">
+                                      <label for="pekerjaan">pekerjaan</label>
+                                      <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" placeholder="Masukkan pekerjaan" value="{{ old('pekerjaan') }}" required>
+                                  </div>
 
-                                        <div class="form-group">
-                                            <label>jenis_kelamin</label>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input type="radio" class="form-check-input" name="jenis_kelamin" value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'checked' : '' }} required> Laki-laki
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input type="radio" class="form-check-input" name="jenis_kelamin" value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'checked' : '' }}> Perempuan
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                  <div class="form-group">
+                                      <label>jenis_kelamin</label>
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                              <div class="form-check custom-radio">
+                                                  <label class="form-check-label custom-radio-label">
+                                                      <input type="radio" class="form-check-input" name="jenis_kelamin" value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'checked' : '' }} required>
+                                                      <span class="radio-custom"></span>
+                                                      Laki-laki
+                                                  </label>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                              <div class="form-check custom-radio">
+                                                  <label class="form-check-label custom-radio-label">
+                                                      <input type="radio" class="form-check-input" name="jenis_kelamin" value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'checked' : '' }}>
+                                                      <span class="radio-custom"></span>
+                                                      Perempuan
+                                                  </label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
 
-                                        <div class="form-group">
-                                            <label for="email">email</label>
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email" value="{{ old('email') }}" required>
-                                        </div>
+                                  <div class="form-group">
+                                      <label for="email">email</label>
+                                      <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email" value="{{ old('email') }}" required>
+                                  </div>
 
-                                        <div class="form-group">
-                                            <label for="No_Hp">No_Hp</label>
-                                            <input type="tel" class="form-control" id="No_Hp" name="No_Hp" placeholder="Masukkan nomor handphone" value="{{ old('No_Hp') }}" required>
-                                        </div>
+                                  <div class="form-group">
+                                      <label for="No_Hp">No_Hp</label>
+                                      <input type="tel" class="form-control" id="No_Hp" name="No_Hp" placeholder="Masukkan nomor handphone" value="{{ old('No_Hp') }}" required>
+                                  </div>
 
-                                        <button type="submit" class="btn btn-primary mr-2">Simpan</button>
-                                        <a href="{{ route('dashboard') }}" class="btn btn-light">Batal</a>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {{--end main content--}}
-                @endsection
+                                  <button type="submit" class="btn btn-primary mr-2">Simpan</button>
+                                  <a href="{{ route('dashboard') }}" class="btn btn-light">Batal</a>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {{--end main content--}}
 
+          <style>
+          /* Styling untuk radio button custom */
+          .custom-radio .form-check-input {
+              display: none;
+          }
 
+          .custom-radio-label {
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+              padding: 8px 12px;
+              border-radius: 4px;
+              transition: all 0.3s ease;
+          }
+
+          .radio-custom {
+              width: 18px;
+              height: 18px;
+              border: 2px solid #adb5bd;
+              border-radius: 50%;
+              margin-right: 8px;
+              position: relative;
+              transition: all 0.3s ease;
+          }
+
+          .custom-radio .form-check-input:checked + .radio-custom {
+              border-color: #007bff;
+              background-color: #007bff;
+          }
+
+          .custom-radio .form-check-input:checked + .radio-custom::after {
+              content: "";
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background: white;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+          }
+
+          .custom-radio .form-check-input:checked ~ .custom-radio-label {
+              background-color: #e7f1ff;
+              color: #007bff;
+              font-weight: 500;
+          }
+          </style>
+          @endsection
