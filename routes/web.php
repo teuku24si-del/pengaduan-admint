@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\Kategori_pengaduanController;
-use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,4 +37,7 @@ Route::resource('kategori_pengaduan',Kategori_pengaduanController::class);
 
 //route controller user
 Route::resource('user', UserController::class);
+
+//route controller pengaduan
+Route::resource('Pengaduan',PengaduanController::class);
 

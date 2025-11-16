@@ -18,6 +18,13 @@
              </a>
          </li>
 
+         <li class="nav-item">
+             <a class="nav-link" href="{{ route('Pengaduan.create') }}">
+                 <span class="icon-bg"><i class="mdi mdi-contacts menu-icon"></i></span>
+                 <span class="menu-title">Pengaduan</span>
+             </a>
+         </li>
+
 
          <li class="nav-item nav-category">Master Data </li>
 
