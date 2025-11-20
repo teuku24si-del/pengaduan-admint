@@ -17,4 +17,9 @@ class warga extends Model
         'No_Hp',
     ];
 
+     public function pengaduan()
+    {
+        return $this->hasMany(Pengaduan::class, 'warga_id', 'warga_id');
+    }
+
 }
