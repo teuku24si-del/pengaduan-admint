@@ -12,7 +12,7 @@ class Kategori_pengaduanController extends Controller
      */
     public function index()
     {
-         $data['datakategori_pengaduan'] = kategori_pengaduan::all();
+         $data['datakategori_pengaduan'] = kategori_pengaduan::paginate(5);
 		return view('pages.kategori_pengaduan.index',$data);
     }
 

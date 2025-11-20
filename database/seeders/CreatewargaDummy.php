@@ -16,7 +16,7 @@ class CreatewargaDummy extends Seeder
     {
          $faker = Factory::create();
 
-    foreach (range(1, 40) as $index) {
+    foreach (range(1, 100) as $index) {
         DB::table('warga')->insert([
             'nama' => $faker->name(),
             'agama'  => $faker->randomElement(['Islam', 'Kristen','Katolik','Hindu','Budha','Kong Hucu']),

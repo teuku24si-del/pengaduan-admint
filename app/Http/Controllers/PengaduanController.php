@@ -14,7 +14,7 @@ class PengaduanController extends Controller
      */
     public function index()
     {
-          $data['dataPengaduan'] = Pengaduan::all();
+          $data['dataPengaduan'] = Pengaduan::paginate(10);
 		return view('pages.Pengaduan.index',$data);
     }
 

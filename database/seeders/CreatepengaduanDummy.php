@@ -22,7 +22,7 @@ class CreatepengaduanDummy extends Seeder
         // Ambil semua ID warga yang tersedia
         $warga_id = DB::table('warga')->pluck('warga_id')->toArray();
 
-          foreach (range(1, 50) as $index) {
+          foreach (range(1, 100) as $index) {
             DB::table('pengaduan')->insert([
                 // Foreign Keys
                 'kategori_id' => $faker->randomElement($kategori_id),

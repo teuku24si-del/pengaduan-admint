@@ -15,7 +15,7 @@ class WargaController extends Controller
      */
     public function index()
     {
-        $data['datawarga'] = warga::all();
+        $data['datawarga'] = warga::paginate(10);
 		return view('pages.warga.index',$data);
     }
 
