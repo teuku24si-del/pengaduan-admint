@@ -35,7 +35,7 @@ class Createkategori_pengaduan extends Seeder
             'Kesejahteraan Masyarakat'
         ];
 
-        $prioritasOptions = ['Rendah', 'Sedang', 'Tinggi', 'Kritis'];
+        $prioritasOptions = ['Rendah', 'Sedang', 'Tinggi', 'sangat_tinggi'];
 
         foreach (range(1, 15) as $index) {
             DB::table('kategori_pengaduan')->insert([

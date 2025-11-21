@@ -10,10 +10,24 @@ class Kategori_pengaduanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-         $data['datakategori_pengaduan'] = kategori_pengaduan::paginate(5);
-		return view('pages.kategori_pengaduan.index',$data);
+        //  $data['datakategori_pengaduan'] = kategori_pengaduan::paginate(5);
+		// return view('pages.kategori_pengaduan.index',$data);
+
+          //daftar kolom yang bisa di filter
+        $filterableColumns = ['prioritas'];
+
+        $searchableColumns = ['nama'];
+
+        $data['datakategori_pengaduan'] = kategori_pengaduan:: filter($request,$filterableColumns)
+                                             ->search($request,$searchableColumns)
+                                             ->paginate(5)->withQueryString();
+         return view('pages.kategori_pengaduan.index',$data);
+
+        //menggunakan scope filter
+        $pageData['datakategori_pengaduan'] = kategori_pengaduan::filter($request, $filterableColumns)->paginate(5);
+        return view('pages.kategori_pengaduan.index', $pageData);
     }
 
     /**
