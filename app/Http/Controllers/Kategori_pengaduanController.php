@@ -12,8 +12,7 @@ class Kategori_pengaduanController extends Controller
      */
     public function index(Request $request)
     {
-        //  $data['datakategori_pengaduan'] = kategori_pengaduan::paginate(5);
-		// return view('pages.kategori_pengaduan.index',$data);
+        
 
           //daftar kolom yang bisa di filter
         $filterableColumns = ['prioritas'];

@@ -45,16 +45,16 @@
                                     <div class="col-md-2">
                                         <select name="prioritas" class="form-select" onchange="this.form.submit()">
                                             <option value="">All</option>
-                                            <option value="prioritas"
+                                            <option value="rendah"
                                                 {{ request('prioritas') == 'rendah' ? 'selected' : '' }}>rendah
                                             </option>
-                                            <option value="prioritas"
+                                            <option value="sedang"
                                                 {{ request('prioritas') == 'sedang' ? 'selected' : '' }}>sedang
                                             </option>
-                                             <option value="prioritas"
+                                             <option value="tinggi"
                                                 {{ request('prioritas') == 'tinggi' ? 'selected' : '' }}>tinggi
                                             </option>
-                                             <option value="prioritas"
+                                             <option value="sangat_tinggi"
                                                 {{ request('prioritas') == 'sangat_tinggi' ? 'selected' : '' }}> sangat tinggi
                                             </option>
                                         </select>

@@ -12,10 +12,23 @@ class PengaduanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-          $data['dataPengaduan'] = Pengaduan::paginate(10);
-		return view('pages.Pengaduan.index',$data);
+        //   $data['dataPengaduan'] = Pengaduan::paginate(10);
+		// return view('pages.Pengaduan.index',$data);
+
+          $filterableColumns = ['status'];
+
+        $searchableColumns = ['no_tiket'];
+
+        $data['dataPengaduan'] = Pengaduan:: filter($request,$filterableColumns)
+                                             ->search($request,$searchableColumns)
+                                             ->paginate(10)->withQueryString();
+         return view('pages.Pengaduan.index',$data);
+
+        //menggunakan scope filter
+        $pageData['dataPengaduan'] = Pengaduan::filter($request, $filterableColumns)->paginate(10);
+        return view('pages.Pengaduan.index', $pageData);
     }
 
     /**
