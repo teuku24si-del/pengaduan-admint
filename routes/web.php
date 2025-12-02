@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PengaduanController;
@@ -41,3 +42,6 @@ Route::resource('user', UserController::class);
 //route controller pengaduan
 Route::resource('Pengaduan',PengaduanController::class);
 
+//route controller media
+Route::post('/media/store', [MediaController::class, 'store'])->name('media.store');
+Route::delete('/media/destroy/{id}', [MediaController::class, 'destroy'])->name('media.destroy');

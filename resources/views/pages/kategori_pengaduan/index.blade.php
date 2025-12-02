@@ -45,17 +45,18 @@
                                     <div class="col-md-2">
                                         <select name="prioritas" class="form-select" onchange="this.form.submit()">
                                             <option value="">All</option>
-                                            <option value="rendah"
-                                                {{ request('prioritas') == 'rendah' ? 'selected' : '' }}>rendah
+                                            <option value="rendah" {{ request('prioritas') == 'rendah' ? 'selected' : '' }}>
+                                                rendah
                                             </option>
-                                            <option value="sedang"
-                                                {{ request('prioritas') == 'sedang' ? 'selected' : '' }}>sedang
+                                            <option value="sedang" {{ request('prioritas') == 'sedang' ? 'selected' : '' }}>
+                                                sedang
                                             </option>
-                                             <option value="tinggi"
-                                                {{ request('prioritas') == 'tinggi' ? 'selected' : '' }}>tinggi
+                                            <option value="tinggi" {{ request('prioritas') == 'tinggi' ? 'selected' : '' }}>
+                                                tinggi
                                             </option>
-                                             <option value="sangat_tinggi"
-                                                {{ request('prioritas') == 'sangat_tinggi' ? 'selected' : '' }}> sangat tinggi
+                                            <option value="sangat_tinggi"
+                                                {{ request('prioritas') == 'sangat_tinggi' ? 'selected' : '' }}> sangat
+                                                tinggi
                                             </option>
                                         </select>
 
@@ -114,6 +115,11 @@
                                             </td>
 
                                             <td>
+                                                <a href="{{ route('kategori_pengaduan.show', $kategori->kategori_id) }}"
+                                                    class="btn btn-sm btn-info" title="Detail">
+                                                    <i class="mdi mdi-eye"></i> Detail
+                                                </a>
+
                                                 <a href="{{ route('kategori_pengaduan.edit', $kategori->kategori_id) }}"
                                                     class="btn btn-sm btn-warning" title="Edit">
                                                     <i class="mdi mdi-pencil"></i> Edit

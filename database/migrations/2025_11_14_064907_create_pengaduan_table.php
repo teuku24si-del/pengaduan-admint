@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengaduan', function (Blueprint $table) {
+        if(!Schema::hastable('pengaduan')){
+             Schema::create('pengaduan', function (Blueprint $table) {
             // Primary Key
         $table->id('pengaduan_id');
 
@@ -42,6 +43,9 @@ return new class extends Migration
             ->references('warga_id')->on('warga')
             ->onDelete('cascade');
     });
+
+        }
+
     }
 
     /**

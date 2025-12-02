@@ -73,7 +73,7 @@ class PengaduanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**

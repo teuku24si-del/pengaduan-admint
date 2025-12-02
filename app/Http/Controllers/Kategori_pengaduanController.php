@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\kategori_pengaduan;
+use App\Models\media;
 use Illuminate\Http\Request;
+use App\Models\kategori_pengaduan;
+use Illuminate\Support\Facades\File;
 
 class Kategori_pengaduanController extends Controller
 {
@@ -12,7 +14,7 @@ class Kategori_pengaduanController extends Controller
      */
     public function index(Request $request)
     {
-        
+
 
           //daftar kolom yang bisa di filter
         $filterableColumns = ['prioritas'];
@@ -56,9 +58,15 @@ class Kategori_pengaduanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(kategori_pengaduan $kategori_pengaduan)
     {
-        //
+           // Ambil data media yang terkait dengan kategori pengaduan
+    $files = media::where('ref_table', 'kategori_pengaduan')
+              ->where('ref_id', $kategori_pengaduan->kategori_id)
+              ->latest()
+              ->get();
+
+    return view('pages.kategori_pengaduan.show', compact('kategori_pengaduan', 'files'));
     }
 
     /**
