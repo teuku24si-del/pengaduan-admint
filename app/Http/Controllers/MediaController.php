@@ -29,38 +29,37 @@ class MediaController extends Controller
      */
     public function store(Request $request)
    {
-        $request->validate([
-            'files' => 'required',
-            // Sesuaikan validasi dengan topik. Untuk Aset bisa gambar/dokumen
-            'files.*' => 'mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:5120',
-            'ref_table' => 'required',
-            'ref_id' => 'required'
-        ]);
+         $request->validate([
+        'files' => 'required',
+        'files.*' => 'mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:5120',
+        'ref_table' => 'required',
+        'ref_id' => 'required'
+    ]);
 
-        $path = public_path('uploads');
-        if(!File::exists($path)) {
-            File::makeDirectory($path, 0777, true, true);
+    $path = public_path('uploads');
+    if(!File::exists($path)) {
+        File::makeDirectory($path, 0777, true, true);
+    }
+
+    if ($request->hasFile('files')) {
+        foreach ($request->file('files') as $file) {
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $mimeType = $file->getClientMimeType();
+
+            $file->move($path, $filename);
+
+            media::create([
+                'ref_table' => $request->ref_table,
+                'ref_id'    => $request->ref_id,
+                'file_name' => $filename,
+                'mime_type' => $mimeType,
+                'caption'   => $request->caption ?? $file->getClientOriginalName(),
+                'sort_order'=> 0
+            ]);
         }
-
-        if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $mimeType = $file->getClientMimeType(); //
-
-                $file->move($path, $filename);
-
-                media::create([
-                    'ref_table' => $request->ref_table,
-                    'ref_id'    => $request->ref_id,
-                    'file_name' => $filename, //
-                    'mime_type' => $mimeType, //
-                    'caption'   => $file->getClientOriginalName(), // Default caption pakai nama asli
-                    'sort_order'=> 0
-                ]);
-            }
-            return back()->with('success', 'File berhasil diupload!');
-        }
-        return back()->with('error', 'Gagal upload file.');
+        return back()->with('success', 'File berhasil diupload!');
+    }
+    return back()->with('error', 'Gagal upload file.');
     }
 
     /**

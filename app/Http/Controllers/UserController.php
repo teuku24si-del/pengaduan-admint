@@ -30,23 +30,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
-        ]);
+         // Validasi data
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users',
+        'role' => 'required|in:admin,staff,kades', // tambahkan validasi role
+        'password' => 'required|min:8|confirmed',
+    ]);
 
-        // Simpan data
-        $data = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password), // Hash password
-        ];
+    // Simpan data
+    $data = [
+        'name' => $request->name,
+        'email' => $request->email,
+        'role' => $request->role, // simpan role
+        'password' => Hash::make($request->password), // Hash password
+    ];
 
-        User::create($data);
+    User::create($data);
 
-        return redirect()->route('user.index')->with('success', 'Penambahan Data Berhasil!');
+    return redirect()->route('user.index')->with('success', 'Penambahan Data Berhasil!');
     }
 
     /**
@@ -73,27 +75,29 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Validasi data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:8|confirmed', // Password optional
-        ]);
+    // Validasi data
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'role' => 'required|in:admin,staff,kades', // tambahkan validasi role
+        'password' => 'nullable|min:8|confirmed', // Password optional
+    ]);
 
-        // Update data
-        $data = [
-            'name' => $request->name,
-            'email' => $request->email,
-        ];
+    // Update data
+    $data = [
+        'name' => $request->name,
+        'role' => $request->role, // update role
+        'email' => $request->email,
+    ];
 
-        // Jika password diisi, update password
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
-        }
+    // Jika password diisi, update password
+    if ($request->filled('password')) {
+        $data['password'] = Hash::make($request->password);
+    }
 
-        $user->update($data);
+    $user->update($data);
 
-        return redirect()->route('user.index')->with('success', 'Data User berhasil diupdate!');
+    return redirect()->route('user.index')->with('success', 'Data User berhasil diupdate!');
     }
 
     /**

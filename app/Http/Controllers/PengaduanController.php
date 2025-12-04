@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\media;
 use App\Models\warga;
 use App\Models\Pengaduan;
 use Illuminate\Http\Request;
@@ -71,9 +72,15 @@ class PengaduanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Pengaduan $Pengaduan)
     {
-        
+         // Ambil data media yang terkait dengan kategori pengaduan
+    $files = media::where('ref_table', 'Pengaduan')
+              ->where('ref_id', $Pengaduan->Pengaduan_id)
+              ->latest()
+              ->get();
+
+    return view('pages.Pengaduan.show', compact('Pengaduan', 'files'));
     }
 
     /**

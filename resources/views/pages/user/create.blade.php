@@ -2,16 +2,7 @@
 
 @section('content')
 <div class="content-wrapper">
-    <div class="row" id="proBanner">
-        <div class="col-12">
-            <span class="d-flex align-items-center purchase-popup">
-                <p>Like what you see? Check out our premium version for more.</p>
-                <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template" target="_blank" class="btn ml-auto download-button">Download Free Version</a>
-                <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/" target="_blank" class="btn purchase-button">Upgrade To Pro</a>
-                <i class="mdi mdi-close" id="bannerClose"></i>
-            </span>
-        </div>
-    </div>
+    <!-- Banner dan kode lainnya tetap sama -->
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -39,11 +30,23 @@
                     <form class="forms-sample" action="{{ route('user.store') }}" method="POST">
                         @csrf
 
+                        <!-- DROPDOWN ROLE (TAMBAHAN BARU) -->
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <select class="form-control" id="role" name="role" required>
+                                <option value="" disabled selected>Pilih Role</option>
+                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Staff</option>
+                                <option value="kades" {{ old('role') == 'kades' ? 'selected' : '' }}>Kades</option>
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label for="name">Nama</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama" value="{{ old('name') }}" required>
                         </div>
 
+                        <!-- Field lainnya tetap sama -->
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email" value="{{ old('email') }}" required>
@@ -67,5 +70,4 @@
         </div>
     </div>
 </div>
-{{--end main content--}}
 @endsection

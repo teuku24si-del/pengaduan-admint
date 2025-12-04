@@ -2,16 +2,7 @@
 
 @section('content')
 <div class="content-wrapper">
-    <div class="row" id="proBanner">
-        <div class="col-12">
-            <span class="d-flex align-items-center purchase-popup">
-                <p>Like what you see? Check out our premium version for more.</p>
-                <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template" target="_blank" class="btn ml-auto download-button">Download Free Version</a>
-                <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/" target="_blank" class="btn purchase-button">Upgrade To Pro</a>
-                <i class="mdi mdi-close" id="bannerClose"></i>
-            </span>
-        </div>
-    </div>
+    <!-- Banner dan kode lainnya tetap sama -->
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -37,6 +28,7 @@
                                     <th class="header-number">#</th>
                                     <th class="header-name">Name</th>
                                     <th class="header-email">Email</th>
+                                    <th class="header-role">Role</th> <!-- TAMBAHAN KOLOM ROLE -->
                                     <th class="header-action">Aksi</th>
                                 </tr>
                             </thead>
@@ -46,6 +38,17 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>
+                                        @if($user->role == 'admin')
+                                            <span class="badge badge-danger">Admin</span>
+                                        @elseif($user->role == 'staff')
+                                            <span class="badge badge-warning">Staff</span>
+                                        @elseif($user->role == 'kades')
+                                            <span class="badge badge-success">Kades</span>
+                                        @else
+                                            <span class="badge badge-secondary">{{ $user->role }}</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm">
@@ -63,7 +66,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="text-center">Tidak ada data user</td>
+                                    <td colspan="5" class="text-center">Tidak ada data user</td> <!-- Ubah colspan dari 4 ke 5 -->
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -74,7 +77,6 @@
         </div>
     </div>
 </div>
-{{--end main content--}}
 
 <style>
 /* Styling untuk header tabel user */
@@ -127,6 +129,12 @@
     border-bottom-color: #00c6fe;
 }
 
+/* TAMBAHAN STYLE UNTUK HEADER ROLE */
+.user-table thead th.header-role {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    border-bottom-color: #f9a826;
+}
+
 .user-table thead th.header-action {
     background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
     border-bottom-color: #2ce0b7;
@@ -145,6 +153,10 @@
     background: linear-gradient(135deg, #3a9cfd 0%, #00d9e6 100%);
 }
 
+.user-table thead th.header-role:hover {
+    background: linear-gradient(135deg, #e86391 0%, #f7d03e 100%);
+}
+
 .user-table thead th.header-action:hover {
     background: linear-gradient(135deg, #3ad672 0%, #2ce0b7 100%);
 }
@@ -157,6 +169,34 @@
 .user-table tbody tr:hover {
     background-color: #f8f9fa;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling untuk badge role */
+.badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.badge-danger {
+    background-color: #f44336;
+    color: white;
+}
+
+.badge-warning {
+    background-color: #ff9800;
+    color: white;
+}
+
+.badge-success {
+    background-color: #4caf50;
+    color: white;
+}
+
+.badge-secondary {
+    background-color: #6c757d;
+    color: white;
 }
 
 /* Styling untuk tombol aksi */

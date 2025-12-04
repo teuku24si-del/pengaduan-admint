@@ -37,7 +37,8 @@
                                         <select name="status" class="form-select" onchange="this.form.submit()">
                                             <option value="">All</option>
                                             <option value="sedang_diproses"
-                                                {{ request('status') == 'sedang_diproses' ? 'selected' : '' }}>sedang diproses
+                                                {{ request('status') == 'sedang_diproses' ? 'selected' : '' }}>sedang
+                                                diproses
                                             </option>
                                             <option value="sudah_selesai"
                                                 {{ request('status') == 'sudah_selesai' ? 'selected' : '' }}>sudah selesai
@@ -139,6 +140,12 @@
                                                         Aksi
                                                     </button>
                                                     <div class="dropdown-menu">
+
+                                                        <!-- Tombol Detail -->
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Pengaduan.show', $pengaduan->pengaduan_id) }}">
+                                                            <i class="mdi mdi-eye mr-2"></i>Detail
+                                                        </a>
 
                                                         <a class="dropdown-item"
                                                             href="{{ route('Pengaduan.edit', $pengaduan->pengaduan_id) }}">
