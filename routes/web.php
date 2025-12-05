@@ -45,3 +45,12 @@ Route::resource('Pengaduan',PengaduanController::class);
 //route controller media
 Route::post('/media/store', [MediaController::class, 'store'])->name('media.store');
 Route::delete('/media/destroy/{id}', [MediaController::class, 'destroy'])->name('media.destroy');
+
+//route middleware
+  Route::group(['middleware' => ['checkrole:admin']], function () {
+        Route::resource('user', UserController::class);
+    });
+
+      Route::group(['middleware' => ['checkrole:kades']], function () {
+        Route::resource('user', UserController::class);
+    });
