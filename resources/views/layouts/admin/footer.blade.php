@@ -1,14 +1,11 @@
- <footer class="footer">
-                    <div class="footer-inner-wraper">
-                        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Desa Mamuju ©
-                                2025</span>
+<footer class="footer">
+    <div class="footer-inner-wraper">
+        <div class="text-center">
+            <span class="text-muted">2025 © Dikembangkan oleh Teuku M Hasbi Alghifari </span>
+        </div>
+    </div>
 
-                        </div>
-                    </div>
-                </footer>
-
-                <!-- Floating WhatsApp Button -->
+    <!-- Floating WhatsApp Button -->
     <div class="floating-whatsapp-footer">
         <button class="whatsapp-btn-footer" onclick="redirectToWhatsApp()">
             <i class="mdi mdi-whatsapp"></i>
@@ -18,7 +15,6 @@
         </div>
     </div>
 </footer>
-
 <style>
 /* Floating WhatsApp Button Styles */
 .floating-whatsapp-footer {

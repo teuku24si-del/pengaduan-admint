@@ -12,14 +12,14 @@
          <li class="nav-item nav-category">Fitur Utama </li>
 
          <li class="nav-item">
-             <a class="nav-link" href="{{ route('kategori_pengaduan.create') }}">
+             <a class="nav-link" href="{{ route('kategori_pengaduan.index') }}">
                  <span class="icon-bg"><i class="mdi mdi-contacts menu-icon"></i></span>
                  <span class="menu-title">Kategori Pengaduan</span>
              </a>
          </li>
 
          <li class="nav-item">
-             <a class="nav-link" href="{{ route('Pengaduan.create') }}">
+             <a class="nav-link" href="{{ route('Pengaduan.index') }}">
                  <span class="icon-bg"><i class="mdi mdi-contacts menu-icon"></i></span>
                  <span class="menu-title">Pengaduan</span>
              </a>
@@ -29,14 +29,14 @@
          <li class="nav-item nav-category">Master Data </li>
 
          <li class="nav-item">
-             <a class="nav-link active" href="{{ route('warga.create') }}">
+             <a class="nav-link active" href="{{ route('warga.index') }}">
                  <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
                  <span class="menu-title">Data warga</span>
              </a>
          </li>
 
          <li class="nav-item">
-             <a class="nav-link" href="{{ route('user.create') }}">
+             <a class="nav-link" href="{{ route('user.index') }}">
                  <span class="icon-bg"><i class="mdi mdi-format-list-bulleted menu-icon"></i></span>
                  <span class="menu-title">user</span>
              </a>

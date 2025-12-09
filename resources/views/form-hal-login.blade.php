@@ -223,7 +223,8 @@
 
 
         <div class="login-form">
-            <h2>Login</h2>
+            <h2>Selamat Datang di Pengaduan Masyarakat</h2>
+            <h2>Silahkan Login </h2>
             <form action="{{ route('Auth.store') }}" method="POST">
                 @csrf
                 <label for="username">Username atau Email</label>

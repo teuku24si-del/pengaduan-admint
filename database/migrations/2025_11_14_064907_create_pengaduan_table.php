@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if(!Schema::hastable('pengaduan')){
+         if(!Schema::hastable('pengaduan')){
              Schema::create('pengaduan', function (Blueprint $table) {
             // Primary Key
         $table->id('pengaduan_id');
