@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="footer-inner-wraper">
         <div class="text-center">
-            <span class="text-muted">2025 © Dikembangkan oleh Teuku M Hasbi Alghifari </span>
+            <span class="text-muted">2025 © Crafted By Teuku M Hasbi Alghifari </span>
         </div>
     </div>
 

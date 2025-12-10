@@ -12,7 +12,7 @@ use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\Kategori_pengaduanController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('form-hal-login');
 });
 
 #Route::get('/home',[HomeController::class,'index']);

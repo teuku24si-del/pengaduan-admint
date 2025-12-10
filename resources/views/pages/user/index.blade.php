@@ -1,64 +1,164 @@
+
 @extends('layouts.admin.app')
 
 @section('content')
 <div class="content-wrapper">
-    <!-- Banner dan kode lainnya tetap sama -->
+    <!-- Banner -->
+    <div class="row" id="proBanner">
+        <div class="col-12">
+            <span class="d-flex align-items-center purchase-popup">
+                <p>Like what you see? Check out our premium version for more.</p>
+                <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template"
+                    target="_blank" class="btn ml-auto download-button">Download Free Version</a>
+                <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/"
+                    target="_blank" class="btn purchase-button">Upgrade To Pro</a>
+                <i class="mdi mdi-close" id="bannerClose"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="d-xl-flex justify-content-between align-items-start mb-4">
+        <h2 class="text-dark font-weight-bold mb-2">Data User</h2>
+        <div class="d-flex gap-2">
+            <a href="{{ route('user.create') }}" class="btn btn-primary">
+                <i class="mdi mdi-plus-circle mr-1"></i> Tambah User
+            </a>
+            <a href="{{ route('dashboard') }}" class="btn btn-light">
+                <i class="mdi mdi-arrow-left"></i> Kembali
+            </a>
+        </div>
+    </div>
+
+    <!-- Alert Success -->
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="mdi mdi-check-circle-outline"></i> {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="mdi mdi-alert-circle-outline"></i> {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
     <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="card-title">Data User</h4>
-                        <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm">
-                            <i class="mdi mdi-plus"></i> Tambah User
-                        </a>
+                        <div>
+                            <h4 class="card-title mb-0">Daftar User Sistem</h4>
+                            <p class="card-description mb-0">Kelola semua user yang memiliki akses ke sistem</p>
+                        </div>
+                        <div class="badge badge-info p-2">
+                            Total: {{ $dataUser->count() }} User
+                        </div>
                     </div>
 
-                    @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
+                    <!-- Search Section -->
+                    <div class="card mb-4">
+                        <div class="card-body py-3">
+                            <form method="GET" action="{{ route('user.index') }}" class="row g-3 align-items-center">
+                                <div class="col-md-4">
+                                    <label class="form-label mb-0">Cari User</label>
+                                    <div class="input-group">
+                                        <input type="text" name="search" class="form-control"
+                                            value="{{ request('search') }}" placeholder="Cari nama atau email...">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="mdi mdi-magnify"></i>
+                                        </button>
+                                        @if (request('search'))
+                                            <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
+                                                class="btn btn-outline-secondary">
+                                                <i class="mdi mdi-close"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    @endif
+                    </div>
 
                     <div class="table-responsive">
-                        <table class="table table-striped user-table">
+                        <table class="table table-striped custom-table" id="userTable">
                             <thead>
-                                <tr class="table-header-custom">
-                                    <th class="header-number">#</th>
-                                    <th class="header-name">Name</th>
-                                    <th class="header-email">Email</th>
-                                    <th class="header-role">Role</th> <!-- TAMBAHAN KOLOM ROLE -->
-                                    <th class="header-action">Aksi</th>
+                                <tr class="table-header">
+                                    <th width="60">#</th>
+                                    <th width="200">NAME</th>
+                                    <th width="250">EMAIL</th>
+                                    <th width="150">ROLE</th>
+                                    <th width="220" class="text-center">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($dataUser as $user)
+                                @forelse($dataUser as $index => $user)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
+                                    <td class="text-center">
+                                        <div class="user-number">{{ $loop->iteration }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm me-2">
+                                                <div class="avatar-title bg-primary rounded-circle text-white">
+                                                    {{ substr($user->name, 0, 1) }}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <strong class="text-truncate" style="max-width: 150px; display: inline-block;"
+                                                      title="{{ $user->name }}">
+                                                    {{ $user->name }}
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-truncate" style="max-width: 230px;" title="{{ $user->email }}">
+                                            <i class="mdi mdi-email-outline text-primary mr-1"></i>
+                                            {{ $user->email }}
+                                        </div>
+                                    </td>
                                     <td>
                                         @if($user->role == 'admin')
-                                            <span class="badge badge-danger">Admin</span>
+                                            <span class="badge badge-admin">
+                                                <i class="mdi mdi-shield-crown mr-1"></i>Admin
+                                            </span>
                                         @elseif($user->role == 'staff')
-                                            <span class="badge badge-warning">Staff</span>
+                                            <span class="badge badge-staff">
+                                                <i class="mdi mdi-account-cog mr-1"></i>Staff
+                                            </span>
                                         @elseif($user->role == 'kades')
-                                            <span class="badge badge-success">Kades</span>
+                                            <span class="badge badge-kades">
+                                                <i class="mdi mdi-account-tie mr-1"></i>Kepala Desa
+                                            </span>
                                         @else
-                                            <span class="badge badge-secondary">{{ $user->role }}</span>
+                                            <span class="badge badge-secondary">
+                                                {{ ucfirst($user->role) }}
+                                            </span>
                                         @endif
                                     </td>
                                     <td>
-                                        <div class="btn-group" role="group">
-                                            <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm">
-                                                <i class="mdi mdi-pencil"></i> Edit
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <!-- Tombol Edit -->
+                                            <a href="{{ route('user.edit', $user->id) }}"
+                                               class="btn btn-warning btn-sm btn-action">
+                                                <i class="mdi mdi-pencil mr-1"></i>Edit
                                             </a>
-                                            <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline">
+
+                                            <!-- Tombol Hapus -->
+                                            <form action="{{ route('user.destroy', $user->id) }}"
+                                                  method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">
-                                                    <i class="mdi mdi-delete"></i> Hapus
+                                                <button type="submit" class="btn btn-danger btn-sm btn-action"
+                                                    onclick="return confirmDelete('{{ $user->name }}')">
+                                                    <i class="mdi mdi-delete mr-1"></i>Hapus
                                                 </button>
                                             </form>
                                         </div>
@@ -66,7 +166,16 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">Tidak ada data user</td> <!-- Ubah colspan dari 4 ke 5 -->
+                                    <td colspan="5" class="text-center py-4">
+                                        <div class="empty-state">
+                                            <i class="mdi mdi-account-group-outline display-4 text-muted"></i>
+                                            <h5 class="mt-3">Belum ada data user</h5>
+                                            <p class="text-muted">Silakan tambah user baru untuk memulai</p>
+                                            <a href="{{ route('user.create') }}" class="btn btn-primary mt-2">
+                                                <i class="mdi mdi-plus-circle mr-1"></i> Tambah User
+                                            </a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -79,155 +188,427 @@
 </div>
 
 <style>
-/* Styling untuk header tabel user */
-.user-table thead .table-header-custom {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.user-table thead th {
-    padding: 16px 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    border: none;
-    color: white;
-    position: relative;
-    transition: all 0.3s ease;
-    border-bottom: 3px solid transparent;
-}
-
-.user-table thead th:hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a42a0 100%);
-    transform: translateY(-2px);
-}
-
-/* Garis pembatas antar kolom */
-.user-table thead th:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 20%;
-    height: 60%;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* Warna individual untuk setiap kolom dengan variasi */
-.user-table thead th.header-number {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-bottom-color: #4a5fc9;
-}
-
-.user-table thead th.header-name {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    border-bottom-color: #e4455a;
-}
-
-.user-table thead th.header-email {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    border-bottom-color: #00c6fe;
-}
-
-/* TAMBAHAN STYLE UNTUK HEADER ROLE */
-.user-table thead th.header-role {
-    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-    border-bottom-color: #f9a826;
-}
-
-.user-table thead th.header-action {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-    border-bottom-color: #2ce0b7;
-}
-
-/* Efek hover untuk setiap kolom */
-.user-table thead th.header-number:hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a42a0 100%);
-}
-
-.user-table thead th.header-name:hover {
-    background: linear-gradient(135deg, #e083ed 0%, #e4455a 100%);
-}
-
-.user-table thead th.header-email:hover {
-    background: linear-gradient(135deg, #3a9cfd 0%, #00d9e6 100%);
-}
-
-.user-table thead th.header-role:hover {
-    background: linear-gradient(135deg, #e86391 0%, #f7d03e 100%);
-}
-
-.user-table thead th.header-action:hover {
-    background: linear-gradient(135deg, #3ad672 0%, #2ce0b7 100%);
-}
-
-/* Styling untuk baris data */
-.user-table tbody tr {
-    transition: all 0.2s ease;
-}
-
-.user-table tbody tr:hover {
-    background-color: #f8f9fa;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Styling untuk badge role */
-.badge {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.75rem;
-}
-
-.badge-danger {
-    background-color: #f44336;
-    color: white;
-}
-
-.badge-warning {
-    background-color: #ff9800;
-    color: white;
-}
-
-.badge-success {
-    background-color: #4caf50;
-    color: white;
-}
-
-.badge-secondary {
-    background-color: #6c757d;
-    color: white;
-}
-
-/* Styling untuk tombol aksi */
-.user-table .btn-group .btn {
-    margin: 0 2px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.user-table .btn-group .btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsif untuk mobile */
-@media (max-width: 768px) {
-    .user-table thead th {
-        padding: 12px 8px;
-        font-size: 0.8rem;
+    /* Styling untuk header tabel dengan gradasi biru dan ungu */
+    .custom-table thead .table-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px 8px 0 0;
+        overflow: hidden;
     }
 
-    .user-table .btn-group {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
+    .custom-table thead th {
+        padding: 16px 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+        border: none;
+        position: relative;
+        transition: all 0.3s ease;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .user-table .btn-group .btn {
-        margin: 0;
+    .custom-table thead th:last-child {
+        border-right: none;
+    }
+
+    .custom-table thead th:hover {
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a42a0 100%);
+        transform: translateY(-2px);
+    }
+
+    /* Efek garis bawah dengan gradasi yang sama */
+    .custom-table thead th:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
         width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        transition: all 0.3s ease;
     }
-}
+
+    .custom-table thead th:hover:after {
+        height: 5px;
+        background: linear-gradient(90deg, #5a6fd8 0%, #6a42a0 100%);
+    }
+
+    /* Warna sel individual dengan variasi dari gradasi biru-ungu */
+    .custom-table thead th:nth-child(1) {
+        /* # */
+        background: linear-gradient(135deg, #667eea 0%, #6a5df5 100%);
+    }
+
+    .custom-table thead th:nth-child(2) {
+        /* NAME */
+        background: linear-gradient(135deg, #6a5df5 0%, #764ba2 100%);
+    }
+
+    .custom-table thead th:nth-child(3) {
+        /* EMAIL */
+        background: linear-gradient(135deg, #764ba2 0%, #8a3f9c 100%);
+    }
+
+    .custom-table thead th:nth-child(4) {
+        /* ROLE */
+        background: linear-gradient(135deg, #8a3f9c 0%, #9a36a2 100%);
+    }
+
+    .custom-table thead th:nth-child(5) {
+        /* AKSI */
+        background: linear-gradient(135deg, #9a36a2 0%, #a82bab 100%);
+    }
+
+    /* Efek hover untuk setiap kolom dengan gradasi yang lebih gelap */
+    .custom-table thead th:nth-child(1):hover {
+        background: linear-gradient(135deg, #5a6fd8 0%, #5a4ef2 100%);
+    }
+
+    .custom-table thead th:nth-child(2):hover {
+        background: linear-gradient(135deg, #5a4ef2 0%, #6a42a0 100%);
+    }
+
+    .custom-table thead th:nth-child(3):hover {
+        background: linear-gradient(135deg, #6a42a0 0%, #7a378b 100%);
+    }
+
+    .custom-table thead th:nth-child(4):hover {
+        background: linear-gradient(135deg, #7a378b 0%, #8a2d91 100%);
+    }
+
+    .custom-table thead th:nth-child(5):hover {
+        background: linear-gradient(135deg, #8a2d91 0%, #9a239a 100%);
+    }
+
+    /* Styling untuk baris tabel */
+    .custom-table tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    .custom-table tbody tr:hover {
+        background-color: #f8f9fa;
+        transform: translateX(5px);
+        box-shadow: 0 2px 10px rgba(102, 126, 234, 0.1);
+    }
+
+    /* User number styling */
+    .user-number {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin: 0 auto;
+    }
+
+    /* Avatar styling */
+    .avatar-sm {
+        width: 36px;
+        height: 36px;
+    }
+
+    .avatar-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    /* Badge styling untuk role */
+    .badge-admin {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white !important;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .badge-staff {
+        background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+        color: #212529 !important;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .badge-kades {
+        background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+        color: white !important;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* Text truncate */
+    .text-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+
+    /* Tombol action */
+    .btn-action {
+        padding: 6px 12px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        font-size: 0.875rem;
+        min-width: 80px;
+    }
+
+    .btn-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Warna tombol */
+    .btn-warning {
+        background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+        border: none;
+        color: #212529;
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #e0a800 0%, #d39e00 100%);
+        border: none;
+        color: #212529;
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+        border: none;
+        color: white;
+    }
+
+    /* Empty state */
+    .empty-state {
+        padding: 3rem;
+        text-align: center;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        color: #667eea;
+        opacity: 0.7;
+    }
+
+    /* Alert styling */
+    .alert {
+        border-radius: 8px;
+        border: none;
+    }
+
+    .alert-danger {
+        background-color: #fee;
+        color: #c7254e;
+    }
+
+    .alert-success {
+        background-color: #e8f7ee;
+        color: #28a745;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .d-flex.gap-2 {
+            flex-wrap: wrap;
+            gap: 0.5rem !important;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .custom-table thead {
+            display: none;
+        }
+
+        .custom-table tbody tr {
+            display: block;
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .custom-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid #eef2f7;
+            max-width: 100% !important;
+        }
+
+        .custom-table tbody td:before {
+            content: attr(data-label);
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #667eea;
+            min-width: 80px;
+        }
+
+        .custom-table tbody td:last-child {
+            border-bottom: none;
+            justify-content: center;
+        }
+
+        .d-flex.justify-content-center.gap-2 {
+            flex-wrap: wrap;
+            justify-content: center !important;
+            gap: 0.5rem !important;
+            width: 100%;
+        }
+
+        .btn-action {
+            min-width: 70px;
+            padding: 5px 10px;
+            font-size: 0.8125rem;
+        }
+
+        .avatar-sm {
+            width: 32px;
+            height: 32px;
+        }
+
+        .text-truncate {
+            max-width: 150px !important;
+        }
+
+        .user-number {
+            width: 28px;
+            height: 28px;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Untuk browser yang tidak support gradient */
+    @supports not (background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)) {
+        .custom-table thead th {
+            background-color: #667eea;
+        }
+
+        .custom-table thead th:hover {
+            background-color: #5a6fd8;
+        }
+
+        .user-number {
+            background-color: #667eea;
+        }
+
+        .badge-admin {
+            background-color: #dc3545 !important;
+        }
+
+        .badge-staff {
+            background-color: #ffc107 !important;
+        }
+
+        .badge-kades {
+            background-color: #28a745 !important;
+        }
+
+        .btn-warning {
+            background-color: #ffc107 !important;
+        }
+
+        .btn-danger {
+            background-color: #dc3545 !important;
+        }
+    }
 </style>
 @endsection
+
+@push('scripts')
+<script>
+    // Konfirmasi hapus data
+    function confirmDelete(userName) {
+        return confirm(`Apakah Anda yakin ingin menghapus user "${userName}"?`);
+    }
+
+    // Responsive table untuk mobile
+    function makeTableResponsive() {
+        if (window.innerWidth < 768) {
+            const table = document.getElementById('userTable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            const headerLabels = [
+                '#',
+                'NAME',
+                'EMAIL',
+                'ROLE',
+                'AKSI'
+            ];
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                cells.forEach((cell, index) => {
+                    if (headerLabels[index]) {
+                        cell.setAttribute('data-label', headerLabels[index]);
+                    }
+                });
+            });
+        }
+    }
+
+    // Animasi untuk header tabel saat hover
+    function initTableAnimations() {
+        const tableHeaders = document.querySelectorAll('.custom-table thead th');
+
+        tableHeaders.forEach(header => {
+            header.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+            });
+
+            header.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+    }
+
+    // Jalankan saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        makeTableResponsive();
+        initTableAnimations();
+
+        // Tambahkan event listener untuk resize window
+        window.addEventListener('resize', makeTableResponsive);
+
+        // Auto close alert setelah 5 detik
+        setTimeout(function() {
+            $('.alert').alert('close');
+        }, 5000);
+    });
+</script>
+@endpush
