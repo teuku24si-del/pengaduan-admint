@@ -11,7 +11,7 @@
     @include('layouts.admin.css')
     {{--end css--}}
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo1.png') }}" />
 </head>
 
 <body>

@@ -41,6 +41,17 @@
                  <span class="menu-title">user</span>
              </a>
          </li>
+         <li class="nav-item nav-category">About Developper </li>
+
+         <li class="nav-item">
+             <a class="nav-link" href="{{ route('profil.index') }}">
+                 <span class="icon-bg"><i class="mdi mdi-contacts menu-icon"></i></span>
+                 <span class="menu-title">Profil</span>
+             </a>
+         </li>
+
+
+         </li>
 
          </a>
          </li>

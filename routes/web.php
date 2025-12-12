@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\WargaController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\Kategori_pengaduanController;
@@ -54,3 +55,6 @@ Route::delete('/media/destroy/{id}', [MediaController::class, 'destroy'])->name(
       Route::group(['middleware' => ['checkrole:kades']], function () {
         Route::resource('user', UserController::class);
     });
+
+   //route profil
+   Route::resource('profil', ProfilController::class);
