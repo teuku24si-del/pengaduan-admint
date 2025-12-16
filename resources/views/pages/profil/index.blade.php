@@ -207,7 +207,7 @@
                                         </a>
 
                                         <!-- LinkedIn Button -->
-                                        <a href="https://linkedin.com/in/teukumhasbi"
+                                        <a href="https://linkedin.com/in/hasbi-algi"
                                            target="_blank"
                                            class="social-button-right d-flex align-items-center justify-content-between p-3"
                                            style="background: linear-gradient(135deg, #0077b5 0%, #00a0dc 100%); border-radius: 15px; color: white; text-decoration: none; transition: all 0.3s; border: none; box-shadow: 0 5px 15px rgba(0, 119, 181, 0.3);">
