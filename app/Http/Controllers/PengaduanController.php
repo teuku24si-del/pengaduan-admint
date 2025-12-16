@@ -76,9 +76,9 @@ class PengaduanController extends Controller
     {
          // Ambil data media yang terkait dengan kategori pengaduan
     $files = media::where('ref_table', 'Pengaduan')
-              ->where('ref_id', $Pengaduan->Pengaduan_id)
-              ->latest()
-              ->get();
+                  ->where('ref_id', $Pengaduan->pengaduan_id)
+                  ->latest()
+                  ->get();
 
     return view('pages.Pengaduan.show', compact('Pengaduan', 'files'));
     }

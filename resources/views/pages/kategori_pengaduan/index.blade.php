@@ -164,11 +164,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
-                                                    <!-- Tombol Detail -->
-                                                    <a href="{{ route('kategori_pengaduan.show', $kategori->kategori_id) }}"
-                                                        class="btn btn-info btn-sm">
-                                                        <i class="mdi mdi-eye"></i> Detail
-                                                    </a>
+                                                   
 
                                                     <!-- Tombol Edit -->
                                                     <a href="{{ route('kategori_pengaduan.edit', $kategori->kategori_id) }}"
