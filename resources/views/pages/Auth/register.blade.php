@@ -567,6 +567,23 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="role">Daftar Sebagai</label>
+                    <div style="position: relative;">
+                        <select name="role" id="role" required
+                            style="width: 100%; padding: 14px 45px 14px 15px; border: none; border-radius: 10px; font-size: 15px; background-color: rgba(255, 255, 255, 0.95); color: #333; appearance: none; -webkit-appearance: none;">
+                            <option value="" disabled selected>Pilih Role</option>
+                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Staff</option>
+                            <option value="kades" {{ old('role') == 'kades' ? 'selected' : '' }}>Kepala Desa</option>
+                        </select>
+                        <span class="input-icon" style="pointer-events: none;">▼</span>
+                    </div>
+                    @error('role')
+                        <div class="text-danger small mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="Password">
                 </div>
 

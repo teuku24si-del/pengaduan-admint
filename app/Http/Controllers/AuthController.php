@@ -66,10 +66,12 @@ class AuthController extends Controller
     public function storeRegister(Request $request)
     {
        // 1. Validasi
-        $validated = $request->validate([
-            'name'     => 'required|string|max:255', // Hapus unique users untuk nama jika nama boleh sama, tapi biarkan jika username harus unik
+        $request->validate([
+            'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            // Validasi role harus salah satu dari 3 ini
+            'role'     => 'required|in:admin,staff,kades',
         ]);
 
         // 2. Simpan ke Database
@@ -77,12 +79,11 @@ class AuthController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role'     => 'warga', // Default role untuk pendaftar umum
+            'role'     => $request->role, // Ambil dari inputan user
         ]);
 
         // 3. Redirect ke Halaman Login
-        // Data sekarang sudah ada di database dan akan muncul di "View User" admin
-        return redirect()->route('Auth.index')->with('success', 'Registrasi berhasil! Akun Anda telah dibuat. Silakan Login.');
+        return redirect()->route('Auth.index')->with('success', 'Registrasi berhasil! Silakan Login.');
     }
 
     /**
