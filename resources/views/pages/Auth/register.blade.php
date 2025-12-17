@@ -56,7 +56,8 @@
             font-weight: 700;
             margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            color: #ff0000; /* Warna MERAH untuk judul */
+            color: #ff0000;
+            /* Warna MERAH untuk judul */
         }
 
         /* PERUBAHAN: Warna teks deskripsi menjadi MERAH */
@@ -65,8 +66,10 @@
             line-height: 1.6;
             opacity: 0.9;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            color: #ff3333; /* Warna MERAH yang sedikit lebih terang untuk deskripsi */
-            font-weight: 500; /* Sedikit lebih tebal */
+            color: #ff3333;
+            /* Warna MERAH yang sedikit lebih terang untuk deskripsi */
+            font-weight: 500;
+            /* Sedikit lebih tebal */
         }
 
         /* Bagian kanan (form register) */
@@ -104,7 +107,8 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            background: rgba(255, 255, 255, 0.15); /* Background sedikit transparan */
+            background: rgba(255, 255, 255, 0.15);
+            /* Background sedikit transparan */
             padding: 10px 20px;
             border-radius: 15px;
             backdrop-filter: blur(5px);
@@ -466,8 +470,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Password toggle */
@@ -489,11 +498,12 @@
 
     <div class="left-side">
         <img src="{{ asset('assets/images/login.jpg') }}" alt="Pengaduan Masyarakat"
-             style="width: 100%; height: 100%; object-fit: cover;" />
+            style="width: 100%; height: 100%; object-fit: cover;" />
 
         <div class="left-content">
             <h1>Sistem Pengaduan Masyarakat</h1>
-            <p>Platform digital untuk menyampaikan keluhan, saran, dan pengaduan masyarakat secara cepat, transparan, dan efisien. Bantu kami membangun pelayanan publik yang lebih baik.</p>
+            <p>Platform digital untuk menyampaikan keluhan, saran, dan pengaduan masyarakat secara cepat, transparan,
+                dan efisien. Bantu kami membangun pelayanan publik yang lebih baik.</p>
         </div>
     </div>
 
@@ -522,18 +532,18 @@
             <p class="login-subtitle">Silakan lengkapi data untuk membuat akun baru</p>
 
             <!-- Error/Success Messages -->
-            @if($errors->any())
-            <div class="alert alert-danger" id="error-message">
-                @foreach($errors->all() as $error)
-                {{ $error }}<br>
-                @endforeach
-            </div>
+            @if ($errors->any())
+                <div class="alert alert-danger" id="error-message">
+                    @foreach ($errors->all() as $error)
+                        {{ $error }}<br>
+                    @endforeach
+                </div>
             @endif
 
-            @if(session('success'))
-            <div class="alert alert-success" id="success-message">
-                {{ session('success') }}
-            </div>
+            @if (session('success'))
+                <div class="alert alert-success" id="success-message">
+                    {{ session('success') }}
+                </div>
             @endif
 
             <form action="{{ route('Auth.regist') }}" method="POST" id="loginForm">
@@ -547,14 +557,22 @@
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" id="name" name="name" placeholder="Masukkan email" required>
+                    <input type="email" id="email" name="email" placeholder="Masukkan email"
+                        value="{{ old('email') }}" required>
                     <span class="input-icon">✉️</span>
+
+                    @error('email')
+                        <div class="text-danger small mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Masukkan password" required>
-                    <button type="button" class="password-toggle" id="togglePassword">👁️</button>
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+
+                <div class="form-group">
+                    <input type="password" name="password_confirmation" class="form-control"
+                        placeholder="Ulangi Password">
                 </div>
 
                 <button type="submit" class="login-btn" id="submitBtn">Daftar</button>

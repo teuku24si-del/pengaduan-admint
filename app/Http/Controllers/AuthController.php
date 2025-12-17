@@ -65,23 +65,24 @@ class AuthController extends Controller
      */
     public function storeRegister(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
+       // 1. Validasi
+        $validated = $request->validate([
+            'name'     => 'required|string|max:255', // Hapus unique users untuk nama jika nama boleh sama, tapi biarkan jika username harus unik
+            'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Buat user baru dengan password yang di-hash
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+        // 2. Simpan ke Database
+        User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'role'     => 'warga', // Default role untuk pendaftar umum
         ]);
 
-        // Login otomatis setelah register
-        Auth::login($user);
-
-        return redirect()->route('dashboard')->with('success', 'Registrasi berhasil!');
+        // 3. Redirect ke Halaman Login
+        // Data sekarang sudah ada di database dan akan muncul di "View User" admin
+        return redirect()->route('Auth.index')->with('success', 'Registrasi berhasil! Akun Anda telah dibuat. Silakan Login.');
     }
 
     /**
