@@ -536,7 +536,7 @@
             </div>
             @endif
 
-            <form action="{{ route('Auth.store') }}" method="POST" id="loginForm">
+            <form action="{{ route('Auth.regist') }}" method="POST" id="loginForm">
                 @csrf
 
                 <div class="form-group">
