@@ -94,51 +94,10 @@
             z-index: 1;
         }
 
-        /* Logo - PERUBAHAN: Mengatur logo agar lebih terlihat */
-        .logo-container {
-            position: absolute;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.15); /* Background sedikit transparan */
-            padding: 10px 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .logo {
-            height: 50px;
-            width: auto;
-            /* filter: brightness(0) invert(1); DIHAPUS agar logo warna asli terlihat */
-            transition: transform 0.3s ease;
-            background: white; /* Background putih untuk logo */
-            padding: 5px;
-            border-radius: 10px;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
-        }
-
-        .logo-text {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
         /* Form login */
         .login-form {
             width: 85%;
-            max-width: 450px;
+            max-width: 500px; /* Diperlebar untuk menampung logo yang lebih besar */
             padding: 40px;
             position: relative;
             z-index: 2;
@@ -148,6 +107,49 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* PERUBAHAN: Logo di dalam form login - DIPERLEBAR */
+        .form-logo-container {
+            margin-bottom: 25px;
+            text-align: center;
+            width: 100%; /* Mengambil lebar penuh */
+            padding: 0 20px; /* Memberikan padding kiri dan kanan */
+        }
+
+        .form-logo {
+            width: 100%; /* Logo mengambil lebar penuh dari container */
+            height: auto;
+            max-height: 120px; /* Batas maksimal tinggi logo */
+            background: white;
+            padding: 15px 20px; /* Padding lebih besar di kiri dan kanan */
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            object-fit: contain; /* Menjaga proporsi logo */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-logo:hover {
+            transform: scale(1.02) rotate(1deg);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 1.4rem; /* Sedikit lebih besar */
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
         }
 
         .login-form h2 {
@@ -156,6 +158,7 @@
             font-size: 1.8rem;
             font-weight: 600;
             color: white;
+            margin-top: 10px;
         }
 
         .login-subtitle {
@@ -168,6 +171,7 @@
         .form-group {
             margin-bottom: 25px;
             position: relative;
+            width: 100%;
         }
 
         .form-group label {
@@ -344,6 +348,15 @@
             .left-content p {
                 font-size: 1rem;
             }
+
+            .login-form {
+                max-width: 450px;
+            }
+
+            .form-logo {
+                max-height: 110px;
+                padding: 12px 18px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -378,23 +391,20 @@
                 flex: none;
             }
 
-            .logo-container {
-                top: 20px;
-                padding: 8px 15px;
-            }
-
-            .logo {
-                height: 40px;
-            }
-
-            .logo-text {
-                font-size: 1.3rem;
-            }
-
             .login-form {
                 width: 90%;
                 padding: 30px 25px;
-                margin-top: 40px;
+                margin-top: 20px;
+                max-width: 400px;
+            }
+
+            .form-logo {
+                max-height: 100px;
+                padding: 10px 15px;
+            }
+
+            .logo-text {
+                font-size: 1.2rem;
             }
 
             .login-form h2 {
@@ -407,18 +417,22 @@
                 font-size: 1.5rem;
             }
 
-            .logo-container {
-                flex-direction: column;
-                gap: 8px;
+            .login-form {
+                padding: 25px 20px;
+                max-width: 350px;
+            }
+
+            .form-logo-container {
+                padding: 0 10px;
+            }
+
+            .form-logo {
+                max-height: 80px;
                 padding: 8px 12px;
             }
 
             .logo-text {
-                font-size: 1.2rem;
-            }
-
-            .login-form {
-                padding: 25px 20px;
+                font-size: 1.1rem;
             }
 
             .form-group input {
@@ -433,6 +447,7 @@
             margin-bottom: 20px;
             font-size: 14px;
             display: none;
+            width: 100%;
         }
 
         .alert-danger {
@@ -499,12 +514,6 @@
     </div>
 
     <div class="right-side">
-        <!-- Logo - PERUBAHAN: Logo sekarang lebih terlihat -->
-        <div class="logo-container">
-            <img src="{{ asset('assets/images/logo1.png') }}" alt="Logo" class="logo">
-            <div class="logo-text"></div>
-        </div>
-
         <!-- Floating elements background -->
         <div class="floating-elements">
             <div class="floating-element"></div>
@@ -519,6 +528,12 @@
 
         <!-- Form login -->
         <div class="login-form">
+            <!-- PERUBAHAN: Logo berada di dalam form login, di atas "Selamat Datang" - DIPERLEBAR -->
+            <div class="form-logo-container">
+                <img src="{{ asset('assets/images/logo1.png') }}" alt="Logo Sistem Pengaduan" class="form-logo">
+                <div class="logo-text"></div>
+            </div>
+
             <h2>Selamat Datang</h2>
             <p class="login-subtitle">Silakan login untuk mengakses sistem</p>
 
@@ -542,7 +557,7 @@
 
                 <div class="form-group">
                     <label for="name">Username atau Email</label>
-                    <input type="text" id="name" name="name" placeholder="Masukkan username atau email" required>
+                    <input type="text" id="name" name="name" placeholder="Masukkan email anda" required>
                     <span class="input-icon">👤</span>
                 </div>
 
@@ -552,7 +567,7 @@
                     <button type="button" class="password-toggle" id="togglePassword">👁️</button>
                 </div>
 
-                <button type="submit" class="login-btn" id="submitBtn">Login</button>
+                <button type="submit" class="login-btn" id="submitBtn">LOGIN</button>
 
                 <p class="register-link">Belum punya akun? <a href="{{ route('Auth.regis') }}">Daftar di sini</a></p>
             </form>
@@ -647,10 +662,10 @@
             });
 
             // Logo click animation
-            const logo = document.querySelector('.logo');
-            if (logo) {
-                logo.addEventListener('click', function() {
-                    this.style.transform = 'scale(1.1) rotate(5deg)';
+            const formLogo = document.querySelector('.form-logo');
+            if (formLogo) {
+                formLogo.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.02) rotate(1deg)';
                     setTimeout(() => {
                         this.style.transform = '';
                     }, 300);

@@ -4,7 +4,7 @@
         <a href="{{ route('dashboard') }}" class="sidebar-logo-link">
             <!-- Logo Utama di Sidebar -->
             <div class="sidebar-logo-container">
-                <img src="{{ asset('assets/images/logo1.png') }}"
+                <img src="{{ asset('assets/images/logo2.png') }}"
                      alt="Logo Desa Mamuju"
                      class="sidebar-logo-main"
                      onerror="this.onerror=null; this.src='{{ asset('assets/images/logo.svg') }}'">
