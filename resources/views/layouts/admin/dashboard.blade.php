@@ -12,6 +12,77 @@
     {{--end css--}}
     <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+
+    <style>
+        /* Styling tambahan untuk avatar di header */
+        .nav-profile-img {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .avatar-sm {
+            width: 36px;
+            height: 36px;
+        }
+
+        .avatar-sm .avatar-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-weight: 600;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+        }
+
+        .avatar-lg .avatar-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            font-weight: 700;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #667eea;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Memastikan navbar-item tetap sejajar */
+        .navbar-nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item.nav-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .avatar-sm {
+                width: 32px;
+                height: 32px;
+            }
+
+            .avatar-sm .avatar-title {
+                font-size: 0.9rem;
+            }
+
+            .avatar-lg .avatar-title {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -33,15 +104,14 @@
                 <div class="content-wrapper">
                     <div class="row" id="proBanner">
                         <div class="col-12">
-
-
-                                <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template">
-                                </a>
-
-                                <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/"></a>
-
+                            <span class="d-flex align-items-center purchase-popup">
+                                <p>Like what you see? Check out our premium version for more.</p>
+                                <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template"
+                                    target="_blank" class="btn ml-auto download-button">Download Free Version</a>
+                                <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/"
+                                    target="_blank" class="btn purchase-button">Upgrade To Pro</a>
                                 <i class="mdi mdi-close" id="bannerClose"></i>
-
+                            </span>
                         </div>
                     </div>
                     <div class="d-xl-flex justify-content-between align-items-start">
@@ -152,7 +222,7 @@
 
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
-                {{--start footer--}},
+                {{--start footer--}}
                 @include('layouts.admin.footer')
                 {{--end footer--}}
 
