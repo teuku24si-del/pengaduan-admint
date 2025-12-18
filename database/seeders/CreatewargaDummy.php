@@ -14,7 +14,7 @@ class CreatewargaDummy extends Seeder
      */
     public function run(): void
     {
-         $faker = Factory::create();
+        $faker = Factory::create('id_ID');
 
     foreach (range(1, 100) as $index) {
         DB::table('warga')->insert([
