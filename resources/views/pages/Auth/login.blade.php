@@ -502,7 +502,7 @@
         <!-- Logo - PERUBAHAN: Logo sekarang lebih terlihat -->
         <div class="logo-container">
             <img src="{{ asset('assets/images/logo1.png') }}" alt="Logo" class="logo">
-            <div class="logo-text">Pengaduan Masyarakat</div>
+            <div class="logo-text"></div>
         </div>
 
         <!-- Floating elements background -->
