@@ -29,7 +29,7 @@ class Pengaduan extends Model
 
    public function kategori()
     {
-        return $this->belongsTo(Kategori_Pengaduan::class, 'kategori_id', 'kategori_id');
+        return $this->belongsTo(kategori_pengaduan::class, 'kategori_id', 'kategori_id');
     }
 
     public function warga()
