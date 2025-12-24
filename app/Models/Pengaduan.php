@@ -34,7 +34,7 @@ class Pengaduan extends Model
 
     public function warga()
     {
-        return $this->belongsTo(Warga::class, 'warga_id', 'warga_id');
+        return $this->belongsTo(warga::class, 'warga_id', 'warga_id');
     }
 
     public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
