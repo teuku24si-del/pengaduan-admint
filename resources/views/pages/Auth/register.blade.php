@@ -427,7 +427,7 @@
         <div class="login-form">
             <!-- Logo yang DIPERBESAR ke kanan dan kiri -->
             <div class="form-logo-container">
-                <img src="{{ asset('assets/images/logo1.png') }}" alt="Logo Sistem Pengaduan" class="form-logo">
+                <img src="{{ asset('assets/images/pro.png') }}" alt="Logo Sistem Pengaduan" class="form-logo">
             </div>
 
             <h2>Daftar Akun Baru</h2>

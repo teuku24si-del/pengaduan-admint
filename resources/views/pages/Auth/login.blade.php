@@ -530,7 +530,7 @@
         <div class="login-form">
             <!-- PERUBAHAN: Logo berada di dalam form login, di atas "Selamat Datang" - DIPERLEBAR -->
             <div class="form-logo-container">
-                <img src="{{ asset('assets/images/logo1.png') }}" alt="Logo Sistem Pengaduan" class="form-logo">
+                <img src="{{ asset('assets/images/pro.png') }}" alt="Logo Sistem Pengaduan" class="form-logo">
                 <div class="logo-text"></div>
             </div>
 

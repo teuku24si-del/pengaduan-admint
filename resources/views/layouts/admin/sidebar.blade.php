@@ -65,21 +65,12 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                <span class="icon-bg"><i class="mdi mdi-lock menu-icon"></i></span>
-                <span class="menu-title">User Pages</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="auth">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('Auth.index') }}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('Auth.regis') }}">Register</a>
-                    </li>
-                </ul>
+          <li class="nav-item sidebar-user-actions">
+            <div class="sidebar-user-menu">
+                <a href="{{ route('Auth.regis') }}" class="nav-link">
+                    <i class="mdi mdi-logout menu-icon"></i>
+                    <span class="menu-title">Register</span>
+                </a>
             </div>
         </li>
 
