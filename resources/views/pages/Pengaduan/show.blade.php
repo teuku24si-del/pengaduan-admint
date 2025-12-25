@@ -3,10 +3,21 @@
 @section('content')
     <div class="content-wrapper">
         {{-- Header --}}
-        <div class="d-xl-flex justify-content-between align-items-start mb-3">
-            <h2 class="text-dark font-weight-bold mb-2">Detail Pengaduan: {{ $Pengaduan->no_tiket }}</h2>
+        <div class="d-xl-flex justify-content-between align-items-start mb-4">
+            <div>
+                <h2 class="text-dark font-weight-bold mb-2">Detail Pengaduan</h2>
+                <div class="d-flex align-items-center">
+                    <span class="badge badge-light border mr-2 px-3 py-1">
+                        <i class="mdi mdi-ticket mr-1"></i>{{ $Pengaduan->no_tiket }}
+                    </span>
+                    <span class="text-muted small">
+                        <i class="mdi mdi-calendar mr-1"></i>
+                        {{ \Carbon\Carbon::parse($Pengaduan->created_at)->translatedFormat('d F Y H:i') }}
+                    </span>
+                </div>
+            </div>
             <div class="d-sm-flex justify-content-xl-between align-items-center">
-                <a href="{{ route('Pengaduan.index') }}" class="btn btn-secondary shadow-sm">
+                <a href="{{ route('Pengaduan.index') }}" class="btn btn-light shadow-sm border">
                     <i class="mdi mdi-arrow-left mr-1"></i>Kembali
                 </a>
             </div>
@@ -14,64 +25,139 @@
 
         {{-- Alert --}}
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Berhasil!</strong> {{ session('success') }}
+            <div class="alert alert-success alert-dismissible fade show shadow-sm border-0" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="mdi mdi-check-circle-outline mr-2" style="font-size: 1.2rem;"></i>
+                    <div>
+                        <strong>Berhasil!</strong> {{ session('success') }}
+                    </div>
+                </div>
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
             </div>
         @endif
 
         <div class="row">
+            {{-- Data Laporan Card --}}
             <div class="col-lg-7 grid-margin stretch-card">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h4 class="card-title text-primary"><i class="mdi mdi-information-outline mr-2"></i>Data Laporan
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white border-bottom-0 pt-4 pb-3">
+                        <h4 class="card-title text-primary mb-0">
+                            <i class="mdi mdi-file-document-outline mr-2"></i>Data Laporan Pengaduan
                         </h4>
+                        <p class="text-muted small mb-0">Informasi lengkap mengenai laporan pengaduan</p>
+                    </div>
+                    <div class="card-body pt-0">
                         <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th class="bg-light" width="30%">Isi Laporan</th>
-                                    <td>{{ $Pengaduan->deskripsi }}</td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-light">Kategori</th>
-                                    <td><span class="badge badge-info">{{ $Pengaduan->kategori->nama ?? 'Umum' }}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-light">Lokasi</th>
-                                    <td><i class="mdi mdi-map-marker text-danger"></i> {{ $Pengaduan->lokasi_text }}
-                                        (RT{{ $Pengaduan->rt }}/RW{{ $Pengaduan->rw }})</td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-light">Pelapor</th>
-                                    <td><strong>{{ $Pengaduan->warga->nama ?? 'Anonim' }}</strong>
-                                        ({{ $Pengaduan->warga->nik ?? '-' }})</td>
-                                </tr>
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                    <tr class="border-bottom">
+                                        <th class="bg-light-blue text-dark font-weight-medium" width="35%">
+                                            <div class="d-flex align-items-center">
+                                                <i class="mdi mdi-text mr-2"></i>Isi Laporan
+                                            </div>
+                                        </th>
+                                        <td class="py-3">
+                                            <div class="bg-light p-3 rounded">
+                                                <p class="mb-0 text-justify">{{ $Pengaduan->deskripsi }}</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <th class="bg-light-blue text-dark font-weight-medium">
+                                            <div class="d-flex align-items-center">
+                                                <i class="mdi mdi-tag-outline mr-2"></i>Kategori
+                                            </div>
+                                        </th>
+                                        <td class="py-3">
+                                            <span class="badge badge-gradient-primary px-3 py-2">
+                                                <i class="mdi mdi-folder-outline mr-1"></i>
+                                                {{ $Pengaduan->kategori->nama ?? 'Umum' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <th class="bg-light-blue text-dark font-weight-medium">
+                                            <div class="d-flex align-items-center">
+                                                <i class="mdi mdi-map-marker-outline mr-2"></i>Lokasi
+                                            </div>
+                                        </th>
+                                        <td class="py-3">
+                                            <div class="d-flex align-items-start">
+                                                <div class="mr-2 mt-1">
+                                                    <i class="mdi mdi-map-marker text-danger"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="mb-1 font-weight-medium">{{ $Pengaduan->lokasi_text }}</p>
+                                                    <span class="badge badge-light border">
+                                                        RT{{ $Pengaduan->rt }} / RW{{ $Pengaduan->rw }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light-blue text-dark font-weight-medium">
+                                            <div class="d-flex align-items-center">
+                                                <i class="mdi mdi-account-outline mr-2"></i>Pelapor
+                                            </div>
+                                        </th>
+                                        <td class="py-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-icon-wrapper mr-3">
+                                                    <div class="avatar-icon">
+                                                        <i class="mdi mdi-account-circle text-primary" style="font-size: 2rem;"></i>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-1">{{ $Pengaduan->warga->nama ?? 'Anonim' }}</h5>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {{-- Upload Lampiran Card --}}
             <div class="col-lg-5 grid-margin stretch-card">
-                <div class="card shadow-sm border-left-primary">
-                    <div class="card-body">
-                        <h4 class="card-title">Tambah Lampiran Baru</h4>
+                <div class="card shadow-sm border-0 gradient-card">
+                    <div class="card-header bg-gradient-primary text-white border-bottom-0 pt-4 pb-3">
+                        <h4 class="card-title mb-0">
+                            <i class="mdi mdi-cloud-upload mr-2"></i>Tambah Lampiran Baru
+                        </h4>
+                        <p class="mb-0 opacity-75">Unggah foto atau file pendukung</p>
+                    </div>
+                    <div class="card-body pt-4">
                         <form action="{{ route('media.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="ref_table" value="Pengaduan">
                             <input type="hidden" name="ref_id" value="{{ $Pengaduan->pengaduan_id }}">
 
-                            <div class="form-group">
-                                <label>Pilih Foto/File</label>
-                                <input type="file" name="files[]" class="form-control-file" multiple required>
-                                <small class="text-muted">Bisa pilih lebih dari 1 foto sekaligus.</small>
+                            <div class="form-group mb-4">
+                                <label class="font-weight-medium">Pilih Foto/File</label>
+                                <div class="custom-file">
+                                    <input type="file" name="files[]" class="custom-file-input" id="fileUpload" multiple required>
+                                    <label class="custom-file-label" for="fileUpload" id="fileLabel">
+                                        <i class="mdi mdi-paperclip mr-1"></i>Pilih file...
+                                    </label>
+                                </div>
+                                <small class="form-text text-muted mt-2">
+                                    <i class="mdi mdi-information-outline mr-1"></i>
+                                    Format yang didukung: JPG, PNG, PDF, DOC. Maksimal 5 file.
+                                </small>
                             </div>
-                            <div class="form-group">
-                                <textarea name="caption" class="form-control" rows="2" placeholder="Keterangan foto..."></textarea>
+
+                            <div class="form-group mb-4">
+                                <label class="font-weight-medium">Keterangan</label>
+                                <textarea name="caption" class="form-control" rows="3" placeholder="Tambahkan keterangan mengenai file yang diunggah..."></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">
-                                <i class="mdi mdi-upload mr-1"></i>Mulai Upload
+
+                            <button type="submit" class="btn btn-primary btn-block btn-lg shadow-sm py-3">
+                                <i class="mdi mdi-cloud-upload mr-2"></i>Upload File
                             </button>
                         </form>
                     </div>
@@ -79,64 +165,94 @@
             </div>
         </div>
 
-        <div class="row">
+        {{-- File & Foto Terlampir --}}
+        <div class="row mt-4">
             <div class="col-12 grid-margin stretch-card">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h4 class="card-title text-success"><i class="mdi mdi-image-multiple mr-2"></i>File & Foto Terlampir
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white border-bottom-0 pt-4 pb-3">
+                        <h4 class="card-title text-success mb-0">
+                            <i class="mdi mdi-image-multiple mr-2"></i>File & Foto Terlampir
                         </h4>
-                        <hr>
+                        <p class="text-muted small mb-0">
+                            Total file: {{ $files && $files->count() > 0 ? $files->count() : 0 }}
+                        </p>
+                    </div>
+                    <div class="card-body pt-0">
+                        <hr class="mt-0">
 
                         @if ($files && $files->count() > 0)
                             <div class="row">
                                 @foreach ($files as $file)
-                                    <div class="col-md-3 col-sm-6 mb-4">
-                                        <div class="card h-100 border">
-                                            {{-- Bagian Preview Foto --}}
-                                            <div class="text-center p-2 bg-light"
-                                                style="height: 180px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                                    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                                        <div class="card h-100 border file-card">
+                                            {{-- Preview File/Foto --}}
+                                            <div class="file-preview">
                                                 @php
                                                     $isImage = in_array(
                                                         strtolower(pathinfo($file->file_name, PATHINFO_EXTENSION)),
-                                                        ['jpg', 'jpeg', 'png', 'gif'],
+                                                        ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
                                                     );
                                                     $filePath = asset('uploads/' . $file->file_name);
+                                                    $fileExt = strtolower(pathinfo($file->file_name, PATHINFO_EXTENSION));
                                                 @endphp
 
                                                 @if ($isImage)
-                                                    <a href="{{ $filePath }}" target="_blank">
-                                                        <img src="{{ $filePath }}" class="img-fluid rounded"
-                                                            alt="Lampiran" style="max-height: 160px;">
+                                                    <a href="{{ $filePath }}" target="_blank" class="d-block text-center p-3">
+                                                        <div class="image-container">
+                                                            <img src="{{ $filePath }}" class="img-fluid rounded" alt="Lampiran">
+                                                            <div class="image-overlay">
+                                                                <i class="mdi mdi-magnify-plus-outline"></i>
+                                                            </div>
+                                                        </div>
                                                     </a>
                                                 @else
-                                                    <div class="text-center">
-                                                        <i class="mdi mdi-file-document-outline text-secondary"
-                                                            style="font-size: 3rem;"></i>
-                                                        <p class="small text-uppercase mb-0">
-                                                            {{ pathinfo($file->file_name, PATHINFO_EXTENSION) }} File</p>
+                                                    <div class="text-center p-4 bg-light">
+                                                        <div class="file-icon-wrapper">
+                                                            @if($fileExt == 'pdf')
+                                                                <i class="mdi mdi-file-pdf text-danger" style="font-size: 3.5rem;"></i>
+                                                            @elseif(in_array($fileExt, ['doc', 'docx']))
+                                                                <i class="mdi mdi-file-word text-primary" style="font-size: 3.5rem;"></i>
+                                                            @elseif(in_array($fileExt, ['xls', 'xlsx']))
+                                                                <i class="mdi mdi-file-excel text-success" style="font-size: 3.5rem;"></i>
+                                                            @else
+                                                                <i class="mdi mdi-file-document-outline text-secondary" style="font-size: 3.5rem;"></i>
+                                                            @endif
+                                                        </div>
+                                                        <p class="small text-uppercase font-weight-medium mt-2 mb-0">
+                                                            {{ $fileExt }} File
+                                                        </p>
                                                     </div>
                                                 @endif
                                             </div>
 
-                                            {{-- Bagian Info & Tombol Hapus --}}
-                                            <div class="card-body p-2 text-center">
-                                                <p class="small text-truncate mb-1" title="{{ $file->caption }}">
+                                            {{-- File Info & Actions --}}
+                                            <div class="card-body p-3">
+                                                <p class="file-caption text-center mb-3" title="{{ $file->caption }}">
                                                     {{ $file->caption ?? 'Tanpa keterangan' }}
                                                 </p>
-                                                <div class="btn-group w-100">
+
+                                                <div class="d-flex justify-content-center">
                                                     <a href="{{ $filePath }}" download
-                                                        class="btn btn-xs btn-outline-success shadow-sm" title="Download">
+                                                       class="btn btn-success btn-sm btn-icon mr-2 shadow-sm"
+                                                       title="Download File">
                                                         <i class="mdi mdi-download"></i>
                                                     </a>
 
+                                                    <a href="{{ $filePath }}" target="_blank"
+                                                       class="btn btn-info btn-sm btn-icon mr-2 shadow-sm"
+                                                       title="Lihat File">
+                                                        <i class="mdi mdi-eye"></i>
+                                                    </a>
+
                                                     <form action="{{ route('media.destroy', $file->media_id) }}"
-                                                        method="POST" class="d-inline w-100">
+                                                          method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
-                                                            class="btn btn-xs btn-outline-danger shadow-sm w-100"
-                                                            onclick="return confirm('Hapus file ini?')">
-                                                            <i class="mdi mdi-trash-can"></i> Hapus
+                                                                class="btn btn-danger btn-sm btn-icon shadow-sm"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus file ini?')"
+                                                                title="Hapus File">
+                                                            <i class="mdi mdi-trash-can"></i>
                                                         </button>
                                                     </form>
                                                 </div>
@@ -147,8 +263,11 @@
                             </div>
                         @else
                             <div class="text-center py-5">
-                                <i class="mdi mdi-image-broken-variant text-muted" style="font-size: 50px;"></i>
-                                <p class="text-muted">Belum ada file atau foto yang diupload.</p>
+                                <div class="empty-state-icon mb-3">
+                                    <i class="mdi mdi-image-broken-variant text-muted" style="font-size: 4rem;"></i>
+                                </div>
+                                <h5 class="text-muted">Belum ada lampiran</h5>
+                                <p class="text-muted small">Upload foto atau file pendukung untuk melengkapi data pengaduan</p>
                             </div>
                         @endif
                     </div>
@@ -158,21 +277,181 @@
     </div>
 
     <style>
-        .btn-xs {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
+        /* Custom Styles */
+        .bg-light-blue {
+            background-color: #f8fafd !important;
         }
 
-        .border-left-primary {
-            border-left: 4px solid #4e73df !important;
+        .gradient-card {
+            background: linear-gradient(to bottom, #ffffff 0%, #f9fbfe 100%);
+            border: 1px solid #e3e6f0;
         }
 
-        .card {
-            transition: transform 0.2s;
+        .badge-gradient-primary {
+            background: linear-gradient(45deg, #4e73df, #224abe);
+            color: white;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
+        .file-card {
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e3e6f0;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: #4e73df;
+        }
+
+        .file-preview {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: #f8f9fc;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(78, 115, 223, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            opacity: 0;
+        }
+
+        .image-container:hover .image-overlay {
+            background: rgba(78, 115, 223, 0.8);
+            opacity: 1;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-overlay i {
+            color: white;
+            font-size: 2rem;
+        }
+
+        .file-icon-wrapper {
+            transition: transform 0.3s ease;
+        }
+
+        .file-card:hover .file-icon-wrapper {
+            transform: scale(1.1);
+        }
+
+        .file-caption {
+            font-size: 0.9rem;
+            color: #5a5c69;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 40px;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .avatar-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #e3e6f0, #f8f9fc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state-icon {
+            opacity: 0.6;
+        }
+
+        /* Custom file input */
+        .custom-file-label {
+            background-color: #f8f9fc;
+            border: 1px solid #e3e6f0;
+            color: #6e707e;
+        }
+
+        .custom-file-input:focus ~ .custom-file-label {
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+
+        /* Table styling */
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(248, 250, 253, 0.5);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(78, 115, 223, 0.05);
+        }
+
+        /* Card header styling */
+        .card-header {
+            border-bottom: 1px solid #e3e6f0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .file-preview {
+                height: 160px;
+            }
+
+            .image-container {
+                height: 140px;
+            }
         }
     </style>
+
+    <script>
+        // Update file input label with selected file names
+        document.getElementById('fileUpload').addEventListener('change', function(e) {
+            var files = e.target.files;
+            var label = document.getElementById('fileLabel');
+
+            if (files.length > 0) {
+                if (files.length === 1) {
+                    label.innerHTML = '<i class="mdi mdi-paperclip mr-1"></i>' + files[0].name;
+                } else {
+                    label.innerHTML = '<i class="mdi mdi-paperclip mr-1"></i>' + files.length + ' file dipilih';
+                }
+            } else {
+                label.innerHTML = '<i class="mdi mdi-paperclip mr-1"></i>Pilih file...';
+            }
+        });
+    </script>
 @endsection

@@ -211,9 +211,7 @@
                                                     <div class="text-muted small">
                                                         {{ $pengaduan->created_at->format('Y') }}
                                                     </div>
-                                                    <div class="text-muted smaller">
-                                                        {{ $pengaduan->created_at->format('H:i') }}
-                                                    </div>
+                                                    
                                                 </div>
                                             </td>
                                             <td>
