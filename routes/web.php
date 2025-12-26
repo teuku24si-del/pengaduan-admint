@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\Kategori_pengaduanController;
 use App\Http\Controllers\Tindak_lanjutController;
+use App\Http\Controllers\Penilaian_layananController;
 
 Route::get('/', function () {
     return view('pages.Auth.login');
@@ -66,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+// //route tindak lanjut
+   Route::resource('penilaian_layanan',  Penilaian_layananController::class);
 
 
    //route profil
