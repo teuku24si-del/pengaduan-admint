@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\Kategori_pengaduanController;
+use App\Http\Controllers\Tindak_lanjutController;
 
 Route::get('/', function () {
     return view('pages.Auth.login');
@@ -61,7 +62,8 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-
+//route tindak lanjut
+   Route::resource('tindak_lanjut', Tindak_lanjutController::class);
 
 
    //route profil

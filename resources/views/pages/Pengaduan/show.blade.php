@@ -159,7 +159,20 @@
                             <button type="submit" class="btn btn-primary btn-block btn-lg shadow-sm py-3">
                                 <i class="mdi mdi-cloud-upload mr-2"></i>Upload File
                             </button>
+                            {{-- TAMBAHAN: Tombol Tindak Lanjut --}}
+                            <div class="mt-3">
+                                <hr class="my-4">
+                                <a href="{{ route('tindak_lanjut.create', $Pengaduan->pengaduan_id) }}"
+                                   class="btn btn-warning btn-block btn-lg shadow-sm py-3 text-dark font-weight-bold">
+                                    <i class="mdi mdi-ray-start-arrow mr-2"></i>Tindak Lanjut Pengaduan
+                                </a>
+                                <p class="text-center text-muted small mt-2">
+                                    <i class="mdi mdi-information-outline mr-1"></i>
+                                    Klik untuk mengubah status atau memberikan tanggapan
+                                </p>
+                            </div>
                         </form>
+
                     </div>
                 </div>
             </div>

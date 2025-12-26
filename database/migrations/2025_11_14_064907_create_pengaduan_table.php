@@ -33,7 +33,7 @@ return new class extends Migration
 
         $table->timestamps();
 
-        // Relasi ke keluarga_kk
+        // Relasi ke kategori_pengaduan
         $table->foreign('kategori_id')
             ->references('kategori_id')->on('kategori_pengaduan')
             ->onDelete('cascade');
