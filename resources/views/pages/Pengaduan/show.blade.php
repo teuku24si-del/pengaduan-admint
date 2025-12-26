@@ -162,7 +162,7 @@
                             {{-- TAMBAHAN: Tombol Tindak Lanjut --}}
                             <div class="mt-3">
                                 <hr class="my-4">
-                                <a href="{{ route('tindak_lanjut.create', $Pengaduan->pengaduan_id) }}"
+                                <a href="{{ route('tindak_lanjut.index', $Pengaduan->pengaduan_id) }}"
                                    class="btn btn-warning btn-block btn-lg shadow-sm py-3 text-dark font-weight-bold">
                                     <i class="mdi mdi-ray-start-arrow mr-2"></i>Tindak Lanjut Pengaduan
                                 </a>

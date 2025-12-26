@@ -8,7 +8,7 @@
         <h2 class="text-dark font-weight-bold mb-2">Tambah Tindak Lanjut</h2>
         <div class="d-sm-flex justify-content-xl-between align-items-center">
             <a href="{{ route('tindak_lanjut.index') }}" class="btn btn-light shadow-sm border">
-                <i class="mdi mdi-arrow-left mr-1"></i>Kembali ke Daftar
+                <i class="mdi mdi-arrow-left mr-1"></i>Kembali ke tabel
             </a>
         </div>
     </div>
