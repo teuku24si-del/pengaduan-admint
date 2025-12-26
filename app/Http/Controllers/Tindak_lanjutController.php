@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\media;
 use App\Models\Pengaduan;
 use Illuminate\Http\Request;
 use App\Models\tindak_lanjut;
@@ -59,9 +60,15 @@ class Tindak_lanjutController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(tindak_lanjut $tindak_lanjut)
     {
-        //
+        // Ambil data media yang terkait dengan kategori pengaduan
+    $files = media::where('ref_table', 'tindak_lanjut')
+                  ->where('ref_id', $tindak_lanjut->tindak_id)
+                  ->latest()
+                  ->get();
+
+    return view('pages.tindak_lanjut.show', compact('tindak_lanjut', 'files'));
     }
 
     /**

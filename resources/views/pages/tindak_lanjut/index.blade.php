@@ -64,17 +64,16 @@
                         <!-- Filter dan Search Section -->
                         <div class="card mb-4">
                             <div class="card-body py-3">
-                                <form method="GET" action="{{ route('tindak_lanjut.index') }}" class="row g-3 align-items-center">
+                                <form method="GET" action="{{ route('tindak_lanjut.index') }}"
+                                    class="row g-3 align-items-center">
                                     <div class="col-md-2">
                                         <label class="form-label mb-0">Filter Status</label>
                                         <select name="aksi" class="form-select" onchange="this.form.submit()">
                                             <option value="">Semua Status</option>
-                                            <option value="selesai"
-                                                {{ request('aksi') == 'selesai' ? 'selected' : '' }}>
+                                            <option value="selesai" {{ request('aksi') == 'selesai' ? 'selected' : '' }}>
                                                 Selesai
                                             </option>
-                                            <option value="ditolak"
-                                                {{ request('aksi') == 'ditolak' ? 'selected' : '' }}>
+                                            <option value="ditolak" {{ request('aksi') == 'ditolak' ? 'selected' : '' }}>
                                                 Ditolak
                                             </option>
                                         </select>
@@ -118,43 +117,46 @@
                                     @forelse($datatindak_lanjut as $index => $tindak)
                                         <tr>
                                             <td class="text-center">
-                                                <span class="badge badge-tiket" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                                <span class="badge badge-tiket"
+                                                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                                                     {{ $index + 1 }}
                                                 </span>
                                             </td>
                                             <td>
-                                                @if($tindak->pengaduan)
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-sm me-2">
-                                                        <div class="avatar-title bg-primary rounded-circle text-white">
-                                                            <i class="mdi mdi-ticket-outline"></i>
+                                                @if ($tindak->pengaduan)
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar-sm me-2">
+                                                            <div class="avatar-title bg-primary rounded-circle text-white">
+                                                                <i class="mdi mdi-ticket-outline"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <strong class="text-truncate"
+                                                                style="max-width: 130px; display: inline-block;"
+                                                                title="{{ $tindak->pengaduan->no_tiket ?? 'N/A' }}">
+                                                                {{ $tindak->pengaduan->no_tiket ?? 'N/A' }}
+                                                            </strong>
+                                                            <br>
+                                                            <small class="text-muted">ID: {{ $tindak->tindak_id }}</small>
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        <strong class="text-truncate" style="max-width: 130px; display: inline-block;"
-                                                          title="{{ $tindak->pengaduan->no_tiket ?? 'N/A' }}">
-                                                            {{ $tindak->pengaduan->no_tiket ?? 'N/A' }}
-                                                        </strong>
-                                                        <br>
-                                                        <small class="text-muted">ID: {{ $tindak->tindak_id }}</small>
-                                                    </div>
-                                                </div>
                                                 @else
-                                                <span class="text-muted">-</span>
+                                                    <span class="text-muted">-</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($tindak->pengaduan)
-                                                <div class="font-weight-bold text-truncate" style="max-width: 200px;"
-                                                     title="{{ $tindak->pengaduan->judul ?? '-' }}">
-                                                    {{ Str::limit($tindak->pengaduan->judul ?? '-', 25) }}
-                                                </div>
-                                                <small class="text-muted text-truncate d-block" style="max-width: 200px;"
-                                                       title="{{ $tindak->pengaduan->deskripsi ?? '-' }}">
-                                                    {{ Str::limit($tindak->pengaduan->deskripsi ?? '-', 35) }}
-                                                </small>
+                                                @if ($tindak->pengaduan)
+                                                    <div class="font-weight-bold text-truncate" style="max-width: 200px;"
+                                                        title="{{ $tindak->pengaduan->judul ?? '-' }}">
+                                                        {{ Str::limit($tindak->pengaduan->judul ?? '-', 25) }}
+                                                    </div>
+                                                    <small class="text-muted text-truncate d-block"
+                                                        style="max-width: 200px;"
+                                                        title="{{ $tindak->pengaduan->deskripsi ?? '-' }}">
+                                                        {{ Str::limit($tindak->pengaduan->deskripsi ?? '-', 35) }}
+                                                    </small>
                                                 @else
-                                                <span class="text-muted">Data tidak ditemukan</span>
+                                                    <span class="text-muted">Data tidak ditemukan</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -165,8 +167,9 @@
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <strong class="text-truncate" style="max-width: 120px; display: inline-block;"
-                                                          title="{{ $tindak->petugas }}">
+                                                        <strong class="text-truncate"
+                                                            style="max-width: 120px; display: inline-block;"
+                                                            title="{{ $tindak->petugas }}">
                                                             {{ Str::limit($tindak->petugas, 15) }}
                                                         </strong>
                                                     </div>
@@ -174,11 +177,13 @@
                                             </td>
                                             <td>
                                                 @if ($tindak->aksi == 'selesai')
-                                                    <span class="badge badge-completed" style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);">
+                                                    <span class="badge badge-completed"
+                                                        style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);">
                                                         <i class="mdi mdi-check-circle mr-1"></i>Selesai
                                                     </span>
                                                 @elseif($tindak->aksi == 'ditolak')
-                                                    <span class="badge badge-danger" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
+                                                    <span class="badge badge-danger"
+                                                        style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
                                                         <i class="mdi mdi-close-circle mr-1"></i>Ditolak
                                                     </span>
                                                 @else
@@ -189,7 +194,7 @@
                                             </td>
                                             <td>
                                                 <div class="text-truncate" style="max-width: 170px;"
-                                                     title="{{ $tindak->catatan }}">
+                                                    title="{{ $tindak->catatan }}">
                                                     <i class="mdi mdi-note-text text-info mr-1"></i>
                                                     {{ Str::limit($tindak->catatan, 30) }}
                                                 </div>
@@ -204,22 +209,20 @@
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
                                                     <!-- Tombol Detail -->
-                                                    <button type="button"
-                                                            class="btn btn-info btn-sm btn-action"
-                                                            onclick="showDetail({{ $tindak->tindak_id }})"
-                                                            title="Lihat Detail">
+                                                    <a href="{{ route('tindak_lanjut.show', $tindak->tindak_id) }}"
+                                                        class="btn btn-info btn-sm btn-action" title="Lihat Detail">
                                                         <i class="mdi mdi-eye mr-1"></i>Detail
-                                                    </button>
+                                                    </a>
 
                                                     <!-- Tombol Edit -->
                                                     <a href="{{ route('tindak_lanjut.edit', $tindak->tindak_id) }}"
-                                                        class="btn btn-warning btn-sm btn-action"
-                                                        title="Edit Data">
+                                                        class="btn btn-warning btn-sm btn-action" title="Edit Data">
                                                         <i class="mdi mdi-pencil mr-1"></i>Edit
                                                     </a>
 
                                                     <!-- Tombol Hapus -->
-                                                    <form action="{{ route('tindak_lanjut.destroy', $tindak->tindak_id) }}"
+                                                    <form
+                                                        action="{{ route('tindak_lanjut.destroy', $tindak->tindak_id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
@@ -238,8 +241,10 @@
                                                 <div class="empty-state">
                                                     <i class="mdi mdi-clipboard-text-outline display-4 text-muted"></i>
                                                     <h5 class="mt-3">Belum ada data tindak lanjut</h5>
-                                                    <p class="text-muted">Silakan tambah tindak lanjut baru untuk memulai</p>
-                                                    <a href="{{ route('tindak_lanjut.create') }}" class="btn btn-primary mt-2">
+                                                    <p class="text-muted">Silakan tambah tindak lanjut baru untuk memulai
+                                                    </p>
+                                                    <a href="{{ route('tindak_lanjut.create') }}"
+                                                        class="btn btn-primary mt-2">
                                                         <i class="mdi mdi-plus-circle mr-1"></i> Tambah Tindak Lanjut
                                                     </a>
                                                 </div>
@@ -250,18 +255,19 @@
                             </table>
 
                             <!-- Pagination -->
-                            @if($datatindak_lanjut->hasPages())
-                            <div class="mt-4">
-                                <nav aria-label="Page navigation">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="text-muted">
-                                            Menampilkan {{ $datatindak_lanjut->firstItem() }} hingga {{ $datatindak_lanjut->lastItem() }}
-                                            dari {{ $datatindak_lanjut->total() }} data
+                            @if ($datatindak_lanjut->hasPages())
+                                <div class="mt-4">
+                                    <nav aria-label="Page navigation">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="text-muted">
+                                                Menampilkan {{ $datatindak_lanjut->firstItem() }} hingga
+                                                {{ $datatindak_lanjut->lastItem() }}
+                                                dari {{ $datatindak_lanjut->total() }} data
+                                            </div>
+                                            {{ $datatindak_lanjut->links('pagination::bootstrap-5') }}
                                         </div>
-                                        {{ $datatindak_lanjut->links('pagination::bootstrap-5') }}
-                                    </div>
-                                </nav>
-                            </div>
+                                    </nav>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -619,17 +625,17 @@
 @endsection
 
 @push('scripts')
-<script>
-    // Konfirmasi hapus data
-    function confirmDelete(tindakId) {
-        return confirm(`Apakah Anda yakin ingin menghapus tindak lanjut dengan ID "${tindakId}"?`);
-    }
+    <script>
+        // Konfirmasi hapus data
+        function confirmDelete(tindakId) {
+            return confirm(`Apakah Anda yakin ingin menghapus tindak lanjut dengan ID "${tindakId}"?`);
+        }
 
-    // Show detail modal
-    function showDetail(tindakId) {
-        Swal.fire({
-            title: 'Detail Tindak Lanjut',
-            html: `
+        // Show detail modal
+        function showDetail(tindakId) {
+            Swal.fire({
+                title: 'Detail Tindak Lanjut',
+                html: `
                 <div class="text-start">
                     <div class="mb-3 text-center">
                         <div class="avatar-lg bg-gradient-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3">
@@ -644,85 +650,85 @@
                     </div>
                 </div>
             `,
-            icon: 'info',
-            confirmButtonColor: '#6a11cb',
-            confirmButtonText: 'Mengerti',
-            customClass: {
-                popup: 'animated fadeIn'
+                icon: 'info',
+                confirmButtonColor: '#6a11cb',
+                confirmButtonText: 'Mengerti',
+                customClass: {
+                    popup: 'animated fadeIn'
+                }
+            });
+        }
+
+        // Responsive table untuk mobile
+        function makeTableResponsive() {
+            if (window.innerWidth < 768) {
+                const table = document.getElementById('tindakLanjutTable');
+                const rows = table.querySelectorAll('tbody tr');
+
+                const headerLabels = [
+                    'NO',
+                    'NO. TIKET',
+                    'DESKRIPSI',
+                    'PETUGAS',
+                    'STATUS',
+                    'CATATAN',
+                    'TANGGAL',
+                    'AKSI'
+                ];
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    cells.forEach((cell, index) => {
+                        if (headerLabels[index]) {
+                            cell.setAttribute('data-label', headerLabels[index]);
+                        }
+                    });
+                });
             }
-        });
-    }
+        }
 
-    // Responsive table untuk mobile
-    function makeTableResponsive() {
-        if (window.innerWidth < 768) {
-            const table = document.getElementById('tindakLanjutTable');
-            const rows = table.querySelectorAll('tbody tr');
+        // Animasi untuk header tabel saat hover
+        function initTableAnimations() {
+            const tableHeaders = document.querySelectorAll('.custom-table thead th');
 
-            const headerLabels = [
-                'NO',
-                'NO. TIKET',
-                'DESKRIPSI',
-                'PETUGAS',
-                'STATUS',
-                'CATATAN',
-                'TANGGAL',
-                'AKSI'
-            ];
+            tableHeaders.forEach(header => {
+                header.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+                });
 
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                cells.forEach((cell, index) => {
-                    if (headerLabels[index]) {
-                        cell.setAttribute('data-label', headerLabels[index]);
-                    }
+                header.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
                 });
             });
         }
-    }
 
-    // Animasi untuk header tabel saat hover
-    function initTableAnimations() {
-        const tableHeaders = document.querySelectorAll('.custom-table thead th');
+        // Jalankan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            makeTableResponsive();
+            initTableAnimations();
 
-        tableHeaders.forEach(header => {
-            header.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-            });
+            // Tambahkan event listener untuk resize window
+            window.addEventListener('resize', makeTableResponsive);
 
-            header.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = 'none';
+            // Auto close alert setelah 5 detik
+            setTimeout(function() {
+                $('.alert').alert('close');
+            }, 5000);
+
+            // Add animation to cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100);
             });
         });
-    }
-
-    // Jalankan saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', function() {
-        makeTableResponsive();
-        initTableAnimations();
-
-        // Tambahkan event listener untuk resize window
-        window.addEventListener('resize', makeTableResponsive);
-
-        // Auto close alert setelah 5 detik
-        setTimeout(function() {
-            $('.alert').alert('close');
-        }, 5000);
-
-        // Add animation to cards
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-
-            setTimeout(() => {
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, 100);
-        });
-    });
-</script>
+    </script>
 @endpush
