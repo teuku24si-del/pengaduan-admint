@@ -11,10 +11,20 @@ class Penilaian_layananController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-           $data['datapenilaian_layanan'] = penilaian_layanan::all();
-		 return view('pages.penilaian_layanan.index',$data);
+         // Tentukan kolom yang bisa difilter (contoh: berdasarkan jumlah rating)
+    $filterableColumns = ['rating'];
+
+    // Query data dengan relasi pengaduan
+    $data['datapenilaian_layanan'] = penilaian_layanan::with('pengaduan')
+        ->filter($request, $filterableColumns)
+        ->search($request) // Menggunakan scopeSearch yang sudah diperbaiki
+        ->latest() // Mengurutkan dari yang terbaru
+        ->paginate(10) // Pagination 10 data per halaman
+        ->withQueryString(); // Menjaga parameter filter/search saat pindah halaman
+
+    return view('pages.penilaian_layanan.index', $data);
     }
 
     /**

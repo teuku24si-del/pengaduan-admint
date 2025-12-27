@@ -1,3 +1,4 @@
+//view index penilaian layanan
 @extends('layouts.admin.app')
 
 @section('content')
@@ -55,7 +56,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="text-muted font-weight-normal mb-1">Total Penilaian</h6>
-                                <h3 class="font-weight-bold">{{ $datapenilaian_layanan->count() }}</h3>
+                                <h3 class="font-weight-bold">{{ $datapenilaian_layanan->total() }}</h3>
                             </div>
                             <div class="bg-primary rounded-circle p-3">
                                 <i class="mdi mdi-chart-bar text-white" style="font-size: 1.5rem;"></i>
@@ -128,6 +129,114 @@
             </div>
         </div>
 
+        <!-- Search and Filter Container -->
+        <div class="card mb-4 shadow-sm border-0">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0 text-primary">
+                        <i class="mdi mdi-filter-outline mr-2"></i>Filter & Pencarian
+                    </h5>
+                    <span class="badge badge-light">
+                        {{ $datapenilaian_layanan->count() }} dari {{ $datapenilaian_layanan->total() }} data ditampilkan
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('penilaian_layanan.index') }}" method="GET">
+                    <div class="row align-items-end">
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <label class="font-weight-bold small text-muted">Filter Bintang</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light border-right-0">
+                                        <i class="mdi mdi-star text-warning"></i>
+                                    </span>
+                                </div>
+                                <select name="rating" class="form-control border-left-0" onchange="this.form.submit()">
+                                    <option value="">Semua Rating</option>
+                                    @for($i=5; $i>=1; $i--)
+                                        <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>
+                                            {{ $i }} Bintang
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label class="font-weight-bold small text-muted">Cari Penilaian</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light border-right-0">
+                                        <i class="mdi mdi-magnify"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="search" class="form-control border-left-0"
+                                       placeholder="Cari berdasarkan No. Tiket atau Komentar..."
+                                       value="{{ request('search') }}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="mdi mdi-search"></i> Cari
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="d-flex gap-2">
+                                @if(request('search') || request('rating'))
+                                    <a href="{{ route('penilaian_layanan.index') }}" class="btn btn-light flex-fill">
+                                        <i class="mdi mdi-close-circle-outline mr-1"></i> Reset Filter
+                                    </a>
+                                @endif
+                                <button type="submit" class="btn btn-outline-primary flex-fill">
+                                    <i class="mdi mdi-filter-check mr-1"></i> Terapkan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Filter Badges -->
+                    @if(request('search') || request('rating'))
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center">
+                                    <span class="mr-2 text-muted small">
+                                        <i class="mdi mdi-filter mr-1"></i>Filter Aktif:
+                                    </span>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        @if(request('search'))
+                                            <span class="badge badge-primary p-2">
+                                                <i class="mdi mdi-magnify mr-1"></i>
+                                                Pencarian: "{{ request('search') }}"
+                                                <button type="button" class="btn-close-filter ml-2"
+                                                        onclick="removeFilter('search')" style="background: none; border: none; color: white; font-size: 0.8rem;">
+                                                    ×
+                                                </button>
+                                            </span>
+                                        @endif
+                                        @if(request('rating'))
+                                            <span class="badge badge-warning p-2">
+                                                <i class="mdi mdi-star mr-1"></i>
+                                                Rating: {{ request('rating') }} Bintang
+                                                <button type="button" class="btn-close-filter ml-2"
+                                                        onclick="removeFilter('rating')" style="background: none; border: none; color: white; font-size: 0.8rem;">
+                                                    ×
+                                                </button>
+                                            </span>
+                                        @endif
+                                        <a href="{{ route('penilaian_layanan.index') }}" class="btn btn-sm btn-link text-danger p-0">
+                                            <i class="mdi mdi-close mr-1"></i> Hapus Semua
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </form>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -138,7 +247,7 @@
                                 <p class="card-description mb-0">Kelola semua penilaian layanan</p>
                             </div>
                             <div class="badge badge-info p-2">
-                                Total: {{ $datapenilaian_layanan->count() }} Penilaian
+                                Total: {{ $datapenilaian_layanan->total() }} Penilaian
                             </div>
                         </div>
 
@@ -160,7 +269,7 @@
                                             <td class="text-center">
                                                 <span class="badge badge-tiket"
                                                     style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                                    {{ $index + 1 }}
+                                                    {{ ($datapenilaian_layanan->currentPage() - 1) * $datapenilaian_layanan->perPage() + $loop->iteration }}
                                                 </span>
                                             </td>
                                             <td>
@@ -249,7 +358,17 @@
                                                     <i class="mdi mdi-comment-text text-info mr-1"></i>
                                                     {{ Str::limit($penilaian->komentar, 30) }}
                                                 </div>
-                                               
+                                                @if(strlen($penilaian->komentar) > 30)
+                                                    <button class="btn btn-link btn-sm view-comment p-0 mt-1"
+                                                            data-comment="{{ $penilaian->komentar }}"
+                                                            data-rating="{{ $penilaian->rating }}"
+                                                            data-rating-text="{{ $ratingText }}"
+                                                            data-tiket="{{ $penilaian->pengaduan->no_tiket ?? 'N/A' }}"
+                                                            data-deskripsi="{{ $penilaian->pengaduan->deskripsi ?? '-' }}"
+                                                            data-tanggal="{{ $penilaian->created_at->format('d/m/Y') }}">
+                                                        Lihat selengkapnya
+                                                    </button>
+                                                @endif
                                             </td>
                                             <td>
                                                 <div class="text-center">
@@ -265,11 +384,19 @@
                                                 <div class="empty-state">
                                                     <i class="mdi mdi-star-outline display-4 text-muted"></i>
                                                     <h5 class="mt-3">Belum ada data penilaian layanan</h5>
-                                                    <p class="text-muted">Silakan tambah penilaian baru untuk memulai</p>
-                                                    <a href="{{ route('penilaian_layanan.create') }}"
-                                                        class="btn btn-primary mt-2">
-                                                        <i class="mdi mdi-plus-circle mr-1"></i> Tambah Penilaian
-                                                    </a>
+                                                    @if(request('search') || request('rating'))
+                                                        <p class="text-muted">Tidak ditemukan data dengan filter yang dipilih</p>
+                                                        <a href="{{ route('penilaian_layanan.index') }}"
+                                                            class="btn btn-primary mt-2">
+                                                            <i class="mdi mdi-close mr-1"></i> Reset Filter
+                                                        </a>
+                                                    @else
+                                                        <p class="text-muted">Silakan tambah penilaian baru untuk memulai</p>
+                                                        <a href="{{ route('penilaian_layanan.create') }}"
+                                                            class="btn btn-primary mt-2">
+                                                            <i class="mdi mdi-plus-circle mr-1"></i> Tambah Penilaian
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -277,6 +404,13 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- Pagination -->
+                        @if($datapenilaian_layanan->hasPages())
+                            <div class="mt-4">
+                                {{ $datapenilaian_layanan->withQueryString()->links('pagination::bootstrap-5') }}
+                            </div>
+                        @endif
 
                         <!-- Summary Section -->
                         @if($datapenilaian_layanan->isNotEmpty())
@@ -471,6 +605,7 @@
                         <i class="mdi mdi-close mr-1"></i>Tutup
                     </button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -646,6 +781,47 @@
             opacity: 0.7;
         }
 
+        /* Filter card styling */
+        .card-header.bg-white {
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+        }
+
+        .btn-close-filter {
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .btn-close-filter:hover {
+            opacity: 1;
+        }
+
+        /* Pagination styling */
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+        }
+
+        .pagination .page-link {
+            color: #667eea;
+            border: 1px solid #dee2e6;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+        }
+
         /* Modal styling */
         .modal-lg {
             max-width: 800px;
@@ -701,10 +877,24 @@
                 max-width: 150px !important;
             }
 
+            /* Filter form responsive */
+            .row.align-items-end > div {
+                margin-bottom: 1rem;
+            }
+
+            .row.align-items-end > div:last-child {
+                margin-bottom: 0;
+            }
+
             /* Modal responsive */
             .modal-dialog.modal-lg {
                 margin: 0.5rem;
                 max-width: calc(100% - 1rem);
+            }
+
+            /* Active filters responsive */
+            .d-flex.flex-wrap.gap-2 {
+                gap: 0.5rem !important;
             }
         }
 
@@ -728,6 +918,10 @@
 
             .badge-success {
                 background-color: #28a745 !important;
+            }
+
+            .pagination .page-item.active .page-link {
+                background-color: #667eea;
             }
         }
     </style>
@@ -838,6 +1032,40 @@
                 });
             }
 
+            // Auto submit form saat memilih rating
+            const ratingSelect = document.querySelector('select[name="rating"]');
+            if (ratingSelect) {
+                ratingSelect.addEventListener('change', function() {
+                    this.closest('form').submit();
+                });
+            }
+
+            // Add enter key submit for search
+            const searchInput = document.querySelector('input[name="search"]');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.closest('form').submit();
+                    }
+                });
+            }
+
+            // Remove individual filter
+            function removeFilter(filterName) {
+                const url = new URL(window.location.href);
+                url.searchParams.delete(filterName);
+                window.location.href = url.toString();
+            }
+
+            // Attach remove filter functionality
+            document.querySelectorAll('.btn-close-filter').forEach(button => {
+                button.addEventListener('click', function() {
+                    const filterName = this.getAttribute('onclick').match(/removeFilter\('(\w+)'\)/)[1];
+                    removeFilter(filterName);
+                });
+            });
+
             // Jalankan saat halaman dimuat
             makeTableResponsive();
             initTableAnimations();
@@ -893,6 +1121,16 @@
                     'transition': 'all 0.3s ease-in'
                 });
             });
+
+            // Highlight active filter card
+            const activeFilters = document.querySelectorAll('select[name="rating"][value], input[name="search"][value]');
+            if (activeFilters.length > 0) {
+                const filterCard = document.querySelector('.card.mb-4.shadow-sm.border-0');
+                if (filterCard) {
+                    filterCard.style.borderLeft = '4px solid #667eea';
+                    filterCard.style.boxShadow = '0 0 15px rgba(102, 126, 234, 0.15)';
+                }
+            }
         });
     </script>
 @endpush

@@ -197,7 +197,7 @@
                             {{-- TAMBAHAN: Tombol Tindak Lanjut --}}
                             <div class="mt-3">
                                 <hr class="my-4">
-                                <a href="{{ route('penilaian_layanan.create') }}"
+                                <a href="{{ route('penilaian_layanan.index') }}"
                                    class="btn btn-warning btn-block btn-lg shadow-sm py-3 text-dark font-weight-bold">
                                     <i class="mdi mdi-ray-start-arrow mr-2"></i>Lihat penilaian layanan
                                 </a>
