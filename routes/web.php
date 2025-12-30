@@ -46,8 +46,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('warga', WargaController::class)->except(['index', 'show']);
         Route::resource('kategori_pengaduan', Kategori_pengaduanController::class)->except(['index', 'show']);
         Route::resource('Pengaduan', PengaduanController::class)->except(['index', 'show']);
-        // Resource Tindak Lanjut kecuali index dan show
-        Route::resource('tindak_lanjut', Tindak_lanjutController::class)->except(['index', 'show']);
+         Route::resource('tindak_lanjut', Tindak_lanjutController::class)->except(['index', 'show']);
+         Route::resource('penilaian_layanan', Penilaian_layananController::class)->except(['index', 'show']);
+
 
         // Media (Hapus/Tambah)
         Route::post('/media/store', [MediaController::class, 'store'])->name('media.store');
@@ -63,12 +64,12 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('Pengaduan', PengaduanController::class)->only(['index', 'show']);
         // Resource Tindak Lanjut hanya index dan show
         Route::resource('tindak_lanjut', Tindak_lanjutController::class)->only(['index', 'show']);
+         Route::resource('penilaian_layanan', Penilaian_layananController::class)->only(['index', 'show']);
     });
 
 });
 
-// //route tindak lanjut
-   Route::resource('penilaian_layanan',  Penilaian_layananController::class);
+
 
 
    //route profil
