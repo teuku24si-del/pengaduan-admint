@@ -1,3 +1,5 @@
+//view index penilaian layanan
+//view index penilaian layanan
 
 @extends('layouts.admin.app')
 
@@ -23,8 +25,8 @@
                 <a href="{{ route('penilaian_layanan.create') }}" class="btn btn-primary">
                     <i class="mdi mdi-plus-circle mr-1"></i> Tambah Penilaian
                 </a>
-                <a href="{{ route('penilaian_layanan.index') }}" class="btn btn-light">
-                    <i class="mdi mdi-refresh"></i> Refresh Data
+                <a href="{{ route('dashboard') }}" class="btn btn-light">
+                    <i class="mdi mdi-arrow-left"></i> Kembali ke Dashboard
                 </a>
             </div>
         </div>
@@ -261,6 +263,7 @@
                                         <th width="150">RATING</th>
                                         <th width="180">KOMENTAR</th>
                                         <th width="120">TANGGAL</th>
+                                        <th width="100" class="text-center">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -377,10 +380,143 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center">
+                                                    <!-- Tombol Detail -->
+                                                    <button type="button" class="btn btn-info btn-sm"
+                                                            data-toggle="modal" data-target="#detailModal{{ $penilaian->penilaian_id }}">
+                                                        <i class="mdi mdi-eye"></i> Detail
+                                                    </button>
+                                                </div>
+                                            </td>
                                         </tr>
+
+                                        <!-- Modal Detail -->
+                                        <div class="modal fade" id="detailModal{{ $penilaian->penilaian_id }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="detailModalLabel{{ $penilaian->penilaian_id }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-primary text-white">
+                                                        <h5 class="modal-title" id="detailModalLabel{{ $penilaian->penilaian_id }}">
+                                                            <i class="mdi mdi-star-circle"></i> Detail Data Penilaian Layanan
+                                                        </h5>
+                                                        <button type="button" class="close text-white" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-4 text-center mb-4">
+                                                                <div class="avatar-xl mb-3">
+                                                                    <div class="avatar-title bg-primary rounded-circle text-white display-4">
+                                                                        <i class="mdi mdi-ticket-outline"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <h5>Penilaian ID: {{ $penilaian->penilaian_id }}</h5>
+                                                                <span class="badge {{ $ratingColor }}">
+                                                                    {{ $penilaian->rating }} Bintang
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-4"><strong>No. Tiket:</strong></div>
+                                                                    <div class="col-md-8">
+                                                                        <code>{{ $penilaian->pengaduan->no_tiket ?? 'N/A' }}</code>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-4"><strong>Judul Pengaduan:</strong></div>
+                                                                    <div class="col-md-8">{{ $penilaian->pengaduan->judul ?? '-' }}</div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-4"><strong>Deskripsi Pengaduan:</strong></div>
+                                                                    <div class="col-md-8">{{ $penilaian->pengaduan->deskripsi ?? '-' }}</div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-4"><strong>Rating:</strong></div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="d-flex align-items-center">
+                                                                            @for($i = 1; $i <= 5; $i++)
+                                                                                @if($i <= $penilaian->rating)
+                                                                                    <i class="mdi mdi-star" style="color: #ffc107; font-size: 1.5rem;"></i>
+                                                                                @else
+                                                                                    <i class="mdi mdi-star-outline" style="color: #ccc; font-size: 1.5rem;"></i>
+                                                                                @endif
+                                                                            @endfor
+                                                                            <span class="ml-2 font-weight-bold">{{ $ratingText }}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-4">
+                                                                    <div class="col-md-4"><strong>Komentar:</strong></div>
+                                                                    <div class="col-md-8">
+                                                                        @if($penilaian->komentar)
+                                                                            <div class="card border-light shadow-sm">
+                                                                                <div class="card-body p-4">
+                                                                                    <div class="d-flex align-items-start">
+                                                                                        <div class="mr-3">
+                                                                                            <i class="mdi mdi-comment-text-outline text-primary" style="font-size: 1.5rem;"></i>
+                                                                                        </div>
+                                                                                        <div class="flex-grow-1">
+                                                                                            <p class="mb-0 text-dark" style="font-size: 1rem; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word;">
+                                                                                                {{ $penilaian->komentar }}
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        @else
+                                                                            <div class="alert alert-light border" role="alert">
+                                                                                <i class="mdi mdi-comment-remove-outline mr-2"></i>
+                                                                                Tidak ada komentar
+                                                                            </div>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-4"><strong>Tanggal Penilaian:</strong></div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="badge badge-light p-2">
+                                                                            <i class="mdi mdi-calendar mr-1"></i>
+                                                                            {{ $penilaian->created_at->format('d/m/Y H:i') }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @if($penilaian->pengaduan && $penilaian->pengaduan->warga)
+                                                                <div class="row">
+                                                                    <div class="col-md-4"><strong>Warga Pengadu:</strong></div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <div class="avatar-sm mr-2">
+                                                                                <div class="avatar-title bg-secondary rounded-circle text-white">
+                                                                                    {{ substr($penilaian->pengaduan->warga->nama, 0, 1) }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div>
+                                                                                <strong>{{ $penilaian->pengaduan->warga->nama }}</strong>
+                                                                                <br>
+                                                                                <small class="text-muted">{{ $penilaian->pengaduan->warga->email }}</small>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                            <i class="mdi mdi-close"></i> Tutup
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center py-4">
+                                            <td colspan="7" class="text-center py-4">
                                                 <div class="empty-state">
                                                     <i class="mdi mdi-star-outline display-4 text-muted"></i>
                                                     <h5 class="mt-3">Belum ada data penilaian layanan</h5>
@@ -592,7 +728,7 @@
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="border rounded p-3 bg-light" style="min-height: 150px;" id="fullCommentContent">
+                                    <div class="border rounded p-3 bg-light" id="fullCommentContent" style="font-size: 1.1rem; line-height: 1.7; color: #3a3b45; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; padding: 1.5rem !important;">
                                         <!-- Komentar lengkap akan diisi di sini -->
                                     </div>
                                 </div>
@@ -683,6 +819,10 @@
             background: linear-gradient(135deg, #a82bab 0%, #b724ba 100%);
         }
 
+        .custom-table thead th:nth-child(7) {
+            background: linear-gradient(135deg, #b724ba 0%, #c616d4 100%);
+        }
+
         /* Efek hover untuk setiap kolom */
         .custom-table thead th:nth-child(1):hover {
             background: linear-gradient(135deg, #5a6fd8 0%, #5a4ef2 100%);
@@ -708,6 +848,10 @@
             background: linear-gradient(135deg, #9a239a 0%, #a919a3 100%);
         }
 
+        .custom-table thead th:nth-child(7):hover {
+            background: linear-gradient(135deg, #a919a3 0%, #b80fb3 100%);
+        }
+
         /* Styling untuk baris tabel */
         .custom-table tbody tr {
             transition: all 0.3s ease;
@@ -729,26 +873,16 @@
             font-size: 0.8rem;
         }
 
-        .badge-danger {
-            color: white !important;
-            font-weight: 500;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        .badge-success {
-            color: white !important;
-            font-weight: 500;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
         /* Avatar styling */
         .avatar-sm {
             width: 36px;
             height: 36px;
+        }
+
+        .avatar-xl {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
         }
 
         .avatar-title {
@@ -758,7 +892,30 @@
             width: 100%;
             height: 100%;
             font-weight: 600;
-            font-size: 1rem;
+        }
+
+        .avatar-xl .avatar-title {
+            font-size: 2.5rem;
+        }
+
+        /* Tombol detail dengan gradasi biru-ungu */
+        .btn-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-info:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a42a0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-info i {
+            margin-right: 5px;
         }
 
         /* Text truncate */
@@ -827,6 +984,61 @@
             max-width: 800px;
         }
 
+        /* Styling untuk komentar di modal detail */
+        .modal-body .card.border-light {
+            border: 1px solid #e3e6f0 !important;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background-color: #ffffff;
+        }
+
+        .modal-body .card.border-light:hover {
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+        }
+
+        .modal-body .card-body p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #3a3b45;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .modal-body .alert-light {
+            background-color: #f8f9fc;
+            border-color: #e3e6f0;
+            color: #5a5c69;
+            border-radius: 8px;
+        }
+
+        /* Memastikan teks komentar mudah dibaca */
+        .modal-body .text-dark {
+            color: #3a3b45 !important;
+        }
+
+        /* Styling untuk modal komentar lengkap */
+        #fullCommentContent {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #3a3b45;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding: 1.5rem !important;
+            background-color: #f8f9fc;
+            border-radius: 8px;
+        }
+
+        /* Menambah jarak antar baris untuk keterbacaan */
+        #fullCommentContent br {
+            display: block;
+            content: "";
+            margin-top: 0.5rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .d-flex.gap-2 {
@@ -877,24 +1089,20 @@
                 max-width: 150px !important;
             }
 
-            /* Filter form responsive */
-            .row.align-items-end > div {
-                margin-bottom: 1rem;
+            /* Responsive untuk komentar di modal */
+            .modal-body .card-body p {
+                font-size: 0.95rem;
+                line-height: 1.5;
             }
 
-            .row.align-items-end > div:last-child {
-                margin-bottom: 0;
+            .modal-body .card-body {
+                padding: 1rem !important;
             }
 
-            /* Modal responsive */
-            .modal-dialog.modal-lg {
-                margin: 0.5rem;
-                max-width: calc(100% - 1rem);
-            }
-
-            /* Active filters responsive */
-            .d-flex.flex-wrap.gap-2 {
-                gap: 0.5rem !important;
+            #fullCommentContent {
+                font-size: 1rem;
+                line-height: 1.5;
+                padding: 1rem !important;
             }
         }
 
@@ -912,12 +1120,12 @@
                 background-color: #667eea !important;
             }
 
-            .badge-danger {
-                background-color: #dc3545 !important;
+            .btn-info {
+                background-color: #667eea;
             }
 
-            .badge-success {
-                background-color: #28a745 !important;
+            .btn-info:hover {
+                background-color: #5a6fd8;
             }
 
             .pagination .page-item.active .page-link {
@@ -1001,7 +1209,8 @@
                         'DESKRIPSI PENGADUAN',
                         'RATING',
                         'KOMENTAR',
-                        'TANGGAL'
+                        'TANGGAL',
+                        'AKSI'
                     ];
 
                     rows.forEach(row => {

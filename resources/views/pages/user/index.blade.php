@@ -1,4 +1,3 @@
-
 @extends('layouts.admin.app')
 
 @section('content')
@@ -48,6 +47,116 @@
         </div>
     @endif
 
+    <!-- Search and Filter Container -->
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-header bg-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 text-primary">
+                    <i class="mdi mdi-filter-outline mr-2"></i>Filter & Pencarian
+                </h5>
+                <span class="badge badge-light">
+                    {{ $dataUser->count() }} dari {{ $dataUser->total() }} data ditampilkan
+                </span>
+            </div>
+        </div>
+        <div class="card-body">
+            <form method="GET" action="{{ route('user.index') }}" class="row g-3 align-items-center">
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <label class="font-weight-bold small text-muted">Filter Role</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-light border-right-0">
+                                <i class="mdi mdi-account-cog text-primary"></i>
+                            </span>
+                        </div>
+                        <select name="role" class="form-control border-left-0" onchange="this.form.submit()">
+                            <option value="">Semua Role</option>
+                            <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="staff" {{ request('role') == 'staff' ? 'selected' : '' }}>Staff</option>
+                            <option value="kades" {{ request('role') == 'kades' ? 'selected' : '' }}>Kepala Desa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-5 mb-3 mb-md-0">
+                    <label class="font-weight-bold small text-muted">Cari User</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-light border-right-0">
+                                <i class="mdi mdi-magnify"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="search" class="form-control border-left-0"
+                            value="{{ request('search') }}" placeholder="Cari berdasarkan nama atau email...">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="mdi mdi-search"></i> Cari
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="d-flex gap-2">
+                        @if(request('search') || request('role'))
+                            <a href="{{ route('user.index') }}" class="btn btn-light flex-fill">
+                                <i class="mdi mdi-close-circle-outline mr-1"></i> Reset Filter
+                            </a>
+                        @endif
+                        <button type="submit" class="btn btn-outline-primary flex-fill">
+                            <i class="mdi mdi-filter-check mr-1"></i> Terapkan
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Active Filter Badges -->
+            @if(request('search') || request('role'))
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <span class="mr-2 text-muted small">
+                                <i class="mdi mdi-filter mr-1"></i>Filter Aktif:
+                            </span>
+                            <div class="d-flex flex-wrap gap-2">
+                                @if(request('search'))
+                                    <span class="badge badge-primary p-2">
+                                        <i class="mdi mdi-magnify mr-1"></i>
+                                        Pencarian: "{{ request('search') }}"
+                                        <button type="button" class="btn-close-filter ml-2"
+                                                onclick="removeFilter('search')" style="background: none; border: none; color: white; font-size: 0.8rem;">
+                                            ×
+                                        </button>
+                                    </span>
+                                @endif
+                                @if(request('role'))
+                                    <span class="badge badge-warning p-2">
+                                        @php
+                                            $roleNames = [
+                                                'admin' => 'Admin',
+                                                'staff' => 'Staff',
+                                                'kades' => 'Kepala Desa'
+                                            ];
+                                        @endphp
+                                        <i class="mdi mdi-account-cog mr-1"></i>
+                                        Role: {{ $roleNames[request('role')] ?? request('role') }}
+                                        <button type="button" class="btn-close-filter ml-2"
+                                                onclick="removeFilter('role')" style="background: none; border: none; color: white; font-size: 0.8rem;">
+                                            ×
+                                        </button>
+                                    </span>
+                                @endif
+                                <a href="{{ route('user.index') }}" class="btn btn-sm btn-link text-danger p-0">
+                                    <i class="mdi mdi-close mr-1"></i> Hapus Semua
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -58,31 +167,7 @@
                             <p class="card-description mb-0">Kelola semua user yang memiliki akses ke sistem</p>
                         </div>
                         <div class="badge badge-info p-2">
-                            Total: {{ $dataUser->count() }} User
-                        </div>
-                    </div>
-
-                    <!-- Search Section -->
-                    <div class="card mb-4">
-                        <div class="card-body py-3">
-                            <form method="GET" action="{{ route('user.index') }}" class="row g-3 align-items-center">
-                                <div class="col-md-4">
-                                    <label class="form-label mb-0">Cari User</label>
-                                    <div class="input-group">
-                                        <input type="text" name="search" class="form-control"
-                                            value="{{ request('search') }}" placeholder="Cari nama atau email...">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="mdi mdi-magnify"></i>
-                                        </button>
-                                        @if (request('search'))
-                                            <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
-                                                class="btn btn-outline-secondary">
-                                                <i class="mdi mdi-close"></i>
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </form>
+                            Total: {{ $dataUser->total() }} User
                         </div>
                     </div>
 
@@ -101,7 +186,7 @@
                                 @forelse($dataUser as $index => $user)
                                 <tr>
                                     <td class="text-center">
-                                        <div class="user-number">{{ $loop->iteration }}</div>
+                                        <div class="user-number">{{ ($dataUser->currentPage() - 1) * $dataUser->perPage() + $loop->iteration }}</div>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -170,16 +255,31 @@
                                         <div class="empty-state">
                                             <i class="mdi mdi-account-group-outline display-4 text-muted"></i>
                                             <h5 class="mt-3">Belum ada data user</h5>
-                                            <p class="text-muted">Silakan tambah user baru untuk memulai</p>
-                                            <a href="{{ route('user.create') }}" class="btn btn-primary mt-2">
-                                                <i class="mdi mdi-plus-circle mr-1"></i> Tambah User
-                                            </a>
+                                            @if(request('search') || request('role'))
+                                                <p class="text-muted">Tidak ditemukan data dengan filter yang dipilih</p>
+                                                <a href="{{ route('user.index') }}"
+                                                   class="btn btn-primary mt-2">
+                                                    <i class="mdi mdi-close mr-1"></i> Reset Filter
+                                                </a>
+                                            @else
+                                                <p class="text-muted">Silakan tambah user baru untuk memulai</p>
+                                                <a href="{{ route('user.create') }}" class="btn btn-primary mt-2">
+                                                    <i class="mdi mdi-plus-circle mr-1"></i> Tambah User
+                                                </a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
                                 @endforelse
                             </tbody>
                         </table>
+
+                        <!-- Pagination -->
+                        @if($dataUser->hasPages())
+                            <div class="mt-4">
+                                {{ $dataUser->withQueryString()->links('pagination::bootstrap-5') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -436,6 +536,47 @@
         color: #28a745;
     }
 
+    /* Filter card styling */
+    .card-header.bg-white {
+        border-bottom: 2px solid #f8f9fa;
+    }
+
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .input-group-text {
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    .btn-close-filter {
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+    }
+
+    .btn-close-filter:hover {
+        opacity: 1;
+    }
+
+    /* Pagination styling */
+    .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: #667eea;
+    }
+
+    .pagination .page-link {
+        color: #667eea;
+        border: 1px solid #dee2e6;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
         .d-flex.gap-2 {
@@ -594,6 +735,40 @@
                 this.style.transform = 'translateY(0)';
                 this.style.boxShadow = 'none';
             });
+        });
+    }
+
+    // Remove individual filter
+    function removeFilter(filterName) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete(filterName);
+        window.location.href = url.toString();
+    }
+
+    // Attach remove filter functionality
+    document.querySelectorAll('.btn-close-filter').forEach(button => {
+        button.addEventListener('click', function() {
+            const filterName = this.getAttribute('onclick').match(/removeFilter\('(\w+)'\)/)[1];
+            removeFilter(filterName);
+        });
+    });
+
+    // Auto submit form saat memilih role
+    const roleSelect = document.querySelector('select[name="role"]');
+    if (roleSelect) {
+        roleSelect.addEventListener('change', function() {
+            this.closest('form').submit();
+        });
+    }
+
+    // Add enter key submit for search
+    const searchInput = document.querySelector('input[name="search"]');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.closest('form').submit();
+            }
         });
     }
 
