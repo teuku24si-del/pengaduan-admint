@@ -17,18 +17,15 @@ class WargaController extends Controller
     {
 
 
-        $filterableColumns = ['jenis_kelamin'];
+         $filterableColumns = ['jenis_kelamin'];
+        $searchableColumns = ['nama', 'email', 'No_Hp']; // Tambah email dan No_Hp
 
-        $searchableColumns = ['nama'];
+        $data['datawarga'] = warga::filter($request, $filterableColumns)
+                                  ->search($request, $searchableColumns)
+                                  ->orderBy('created_at', 'desc')
+                                  ->paginate(10)->withQueryString();
 
-        $data['datawarga'] = warga:: filter($request,$filterableColumns)
-                                             ->search($request,$searchableColumns)
-                                             ->paginate(10)->withQueryString();
-         return view('pages.warga.index',$data);
-
-        //menggunakan scope filter
-        $pageData['datawarga'] = warga::filter($request, $filterableColumns)->paginate(10);
-        return view('pages.warga.index', $pageData);
+        return view('pages.warga.index', $data);
     }
 
     /**

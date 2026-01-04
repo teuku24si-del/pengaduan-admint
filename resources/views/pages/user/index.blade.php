@@ -3,18 +3,7 @@
 @section('content')
 <div class="content-wrapper">
     <!-- Banner -->
-    <div class="row" id="proBanner">
-        <div class="col-12">
-            <span class="d-flex align-items-center purchase-popup">
-                <p>Like what you see? Check out our premium version for more.</p>
-                <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template"
-                    target="_blank" class="btn ml-auto download-button">Download Free Version</a>
-                <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/"
-                    target="_blank" class="btn purchase-button">Upgrade To Pro</a>
-                <i class="mdi mdi-close" id="bannerClose"></i>
-            </span>
-        </div>
-    </div>
+    
 
     <div class="d-xl-flex justify-content-between align-items-start mb-4">
         <h2 class="text-dark font-weight-bold mb-2">Data User</h2>
@@ -103,9 +92,7 @@
                                 <i class="mdi mdi-close-circle-outline mr-1"></i> Reset Filter
                             </a>
                         @endif
-                        <button type="submit" class="btn btn-outline-primary flex-fill">
-                            <i class="mdi mdi-filter-check mr-1"></i> Terapkan
-                        </button>
+
                     </div>
                 </div>
             </form>
@@ -115,9 +102,7 @@
                 <div class="row mt-3">
                     <div class="col-12">
                         <div class="d-flex align-items-center">
-                            <span class="mr-2 text-muted small">
-                                <i class="mdi mdi-filter mr-1"></i>Filter Aktif:
-                            </span>
+
                             <div class="d-flex flex-wrap gap-2">
                                 @if(request('search'))
                                     <span class="badge badge-primary p-2">
@@ -146,9 +131,7 @@
                                         </button>
                                     </span>
                                 @endif
-                                <a href="{{ route('user.index') }}" class="btn btn-sm btn-link text-danger p-0">
-                                    <i class="mdi mdi-close mr-1"></i> Hapus Semua
-                                </a>
+
                             </div>
                         </div>
                     </div>

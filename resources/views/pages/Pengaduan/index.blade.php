@@ -1,20 +1,10 @@
-
 @extends('layouts.admin.app')
 
 @section('content')
     {{-- start main content --}}
     <div class="content-wrapper">
         <div class="row" id="proBanner">
-            <div class="col-12">
-                <span class="d-flex align-items-center purchase-popup">
-                    <p>Like what you see? Check out our premium version for more.</p>
-                    <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template" target="_blank"
-                        class="btn ml-auto download-button">Download Free Version</a>
-                    <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/" target="_blank"
-                        class="btn purchase-button">Upgrade To Pro</a>
-                    <i class="mdi mdi-close" id="bannerClose"></i>
-                </span>
-            </div>
+           
         </div>
 
         <div class="d-xl-flex justify-content-between align-items-start mb-4">
@@ -62,11 +52,11 @@
                             </div>
                         </div>
 
-                        <!-- Filter dan Search Section -->
+                        <!-- PERBAIKAN: Filter dan Search Section - Search diperluas -->
                         <div class="card mb-4">
                             <div class="card-body py-3">
                                 <form method="GET" action="{{ route('Pengaduan.index') }}" class="row g-3 align-items-center">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label class="form-label mb-0">Filter Status</label>
                                         <select name="status" class="form-select" onchange="this.form.submit()">
                                             <option value="">Semua Status</option>
@@ -81,21 +71,26 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <label class="form-label mb-0">Cari Pengaduan</label>
                                         <div class="input-group">
                                             <input type="text" name="search" class="form-control"
-                                                value="{{ request('search') }}" placeholder="Cari judul/nama warga...">
+                                                value="{{ request('search') }}"
+                                                placeholder="Cari no.tiket / nama warga / kategori...">
                                             <button type="submit" class="btn btn-primary">
                                                 <i class="mdi mdi-magnify"></i>
                                             </button>
-                                            @if (request('search'))
-                                                <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
+                                            @if (request('search') || request('status'))
+                                                <a href="{{ route('Pengaduan.index') }}"
                                                     class="btn btn-outline-secondary">
                                                     <i class="mdi mdi-close"></i>
                                                 </a>
                                             @endif
                                         </div>
+                                        <small class="text-muted mt-1">
+                                            <i class="mdi mdi-information-outline"></i>
+                                            Cari berdasarkan: No. Tiket, Nama Warga, Kategori, atau Judul
+                                        </small>
                                     </div>
                                 </form>
                             </div>
@@ -211,7 +206,7 @@
                                                     <div class="text-muted small">
                                                         {{ $pengaduan->created_at->format('Y') }}
                                                     </div>
-                                                    
+
                                                 </div>
                                             </td>
                                             <td>
@@ -246,9 +241,28 @@
                                             <td colspan="9" class="text-center py-4">
                                                 <div class="empty-state">
                                                     <i class="mdi mdi-file-document-outline display-4 text-muted"></i>
-                                                    <h5 class="mt-3">Belum ada data pengaduan</h5>
-                                                    <p class="text-muted">Silakan tambah pengaduan baru untuk memulai</p>
-                                                    <a href="{{ route('Pengaduan.create') }}" class="btn btn-primary mt-2">
+                                                    <h5 class="mt-3">
+                                                        @if(request('search') || request('status'))
+                                                            Tidak ada data pengaduan ditemukan
+                                                        @else
+                                                            Belum ada data pengaduan
+                                                        @endif
+                                                    </h5>
+                                                    <p class="text-muted">
+                                                        @if(request('search'))
+                                                            Tidak ada hasil untuk pencarian "{{ request('search') }}"
+                                                        @elseif(request('status'))
+                                                            Tidak ada pengaduan dengan status "{{ request('status') }}"
+                                                        @else
+                                                            Silakan tambah pengaduan baru untuk memulai
+                                                        @endif
+                                                    </p>
+                                                    @if(request('search') || request('status'))
+                                                        <a href="{{ route('Pengaduan.index') }}" class="btn btn-secondary mt-2">
+                                                            <i class="mdi mdi-refresh mr-1"></i> Tampilkan Semua Data
+                                                        </a>
+                                                    @endif
+                                                    <a href="{{ route('Pengaduan.create') }}" class="btn btn-primary mt-2 ml-2">
                                                         <i class="mdi mdi-plus-circle mr-1"></i> Tambah Pengaduan
                                                     </a>
                                                 </div>
@@ -266,6 +280,9 @@
                                         <div class="text-muted">
                                             Menampilkan {{ $dataPengaduan->firstItem() }} hingga {{ $dataPengaduan->lastItem() }}
                                             dari {{ $dataPengaduan->total() }} data
+                                            @if(request('search') || request('status'))
+                                                <span class="badge badge-info ml-2">Hasil Difilter</span>
+                                            @endif
                                         </div>
                                         {{ $dataPengaduan->links('pagination::bootstrap-5') }}
                                     </div>
@@ -664,54 +681,70 @@
         return confirm(`Apakah Anda yakin ingin menghapus pengaduan dengan tiket "${noTiket}"?`);
     }
 
-    // Responsive table untuk mobile
-    function makeTableResponsive() {
-        if (window.innerWidth < 768) {
-            const table = document.getElementById('pengaduanTable');
-            const rows = table.querySelectorAll('tbody tr');
+    // PERBAIKAN: Fitur search dengan enter key
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('input[name="search"]');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.form.submit();
+                }
+            });
 
-            const headerLabels = [
-                'NO. TIKET',
-                'WARGA',
-                'KATEGORI',
-                'JUDUL',
-                'LOKASI',
-                'RT/RW',
-                'STATUS',
-                'TANGGAL',
-                'AKSI'
-            ];
+            // Auto focus pada search input
+            if (window.innerWidth > 768) {
+                searchInput.focus();
+            }
+        }
 
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                cells.forEach((cell, index) => {
-                    if (headerLabels[index]) {
-                        cell.setAttribute('data-label', headerLabels[index]);
-                    }
+        // Responsive table untuk mobile
+        function makeTableResponsive() {
+            if (window.innerWidth < 768) {
+                const table = document.getElementById('pengaduanTable');
+                const rows = table.querySelectorAll('tbody tr');
+
+                const headerLabels = [
+                    'NO. TIKET',
+                    'WARGA',
+                    'KATEGORI',
+                    'JUDUL',
+                    'LOKASI',
+                    'RT/RW',
+                    'STATUS',
+                    'TANGGAL',
+                    'AKSI'
+                ];
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    cells.forEach((cell, index) => {
+                        if (headerLabels[index]) {
+                            cell.setAttribute('data-label', headerLabels[index]);
+                        }
+                    });
+                });
+            }
+        }
+
+        // Animasi untuk header tabel saat hover
+        function initTableAnimations() {
+            const tableHeaders = document.querySelectorAll('.custom-table thead th');
+
+            tableHeaders.forEach(header => {
+                header.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+                });
+
+                header.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
                 });
             });
         }
-    }
 
-    // Animasi untuk header tabel saat hover
-    function initTableAnimations() {
-        const tableHeaders = document.querySelectorAll('.custom-table thead th');
-
-        tableHeaders.forEach(header => {
-            header.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-            });
-
-            header.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = 'none';
-            });
-        });
-    }
-
-    // Jalankan saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', function() {
+        // Jalankan saat halaman dimuat
         makeTableResponsive();
         initTableAnimations();
 

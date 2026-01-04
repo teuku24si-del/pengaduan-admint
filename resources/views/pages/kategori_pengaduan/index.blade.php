@@ -5,18 +5,7 @@
 @section('content')
     {{-- start main content --}}
     <div class="content-wrapper">
-        <div class="row" id="proBanner">
-            <div class="col-12">
-                <span class="d-flex align-items-center purchase-popup">
-                    <p>Like what you see? Check out our premium version for more.</p>
-                    <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template" target="_blank"
-                        class="btn ml-auto download-button">Download Free Version</a>
-                    <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/" target="_blank"
-                        class="btn purchase-button">Upgrade To Pro</a>
-                    <i class="mdi mdi-close" id="bannerClose"></i>
-                </span>
-            </div>
-        </div>
+       
 
         <div class="d-xl-flex justify-content-between align-items-start mb-4">
             <h2 class="text-dark font-weight-bold mb-2">Data Kategori Pengaduan</h2>
@@ -164,7 +153,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
-                                                   
+
 
                                                     <!-- Tombol Edit -->
                                                     <a href="{{ route('kategori_pengaduan.edit', $kategori->kategori_id) }}"

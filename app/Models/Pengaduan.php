@@ -50,11 +50,33 @@ class Pengaduan extends Model
 public function scopeSearch($query, $request, array $columns)
 {
     if ($request->filled('search')) {
-        $query->where(function($q) use ($request, $columns) {
-            foreach ($columns as $column) {
-                $q->orWhere($column, 'LIKE', '%' . $request->search . '%');
-            }
+        $searchTerm = $request->input('search');
+
+        $query->where(function($q) use ($searchTerm) {
+            // Cari berdasarkan no_tiket
+            $q->orWhere('no_tiket', 'LIKE', '%' . $searchTerm . '%');
+
+            // Cari berdasarkan judul
+            $q->orWhere('judul', 'LIKE', '%' . $searchTerm . '%');
+
+            // Cari berdasarkan lokasi
+            $q->orWhere('lokasi_text', 'LIKE', '%' . $searchTerm . '%');
+
+            // Cari berdasarkan deskripsi
+            $q->orWhere('deskripsi', 'LIKE', '%' . $searchTerm . '%');
+
+            // Cari berdasarkan nama warga (relasi ke tabel warga)
+            $q->orWhereHas('warga', function($wargaQuery) use ($searchTerm) {
+                $wargaQuery->where('nama', 'LIKE', '%' . $searchTerm . '%')
+                          ->orWhere('email', 'LIKE', '%' . $searchTerm . '%');
+            });
+
+            // Cari berdasarkan kategori (relasi ke tabel kategori_pengaduan)
+            $q->orWhereHas('kategori', function($kategoriQuery) use ($searchTerm) {
+                $kategoriQuery->where('nama', 'LIKE', '%' . $searchTerm . '%');
+            });
         });
     }
+    return $query;
 }
 }

@@ -18,18 +18,21 @@ class PengaduanController extends Controller
         //   $data['dataPengaduan'] = Pengaduan::paginate(10);
 		// return view('pages.Pengaduan.index',$data);
 
-          $filterableColumns = ['status'];
+         // Kolom yang bisa difilter
+    $filterableColumns = ['status'];
 
-        $searchableColumns = ['no_tiket'];
+    // Kolom yang bisa dicari (sekarang tidak perlu array karena menggunakan whereHas)
+    $searchableColumns = ['no_tiket']; // Tetap diisi minimal satu untuk backward compatibility
 
-        $data['dataPengaduan'] = Pengaduan:: filter($request,$filterableColumns)
-                                             ->search($request,$searchableColumns)
-                                             ->paginate(10)->withQueryString();
-         return view('pages.Pengaduan.index',$data);
+    // Query dengan filter dan search
+    $data['dataPengaduan'] = Pengaduan::with(['warga', 'kategori'])
+        ->filter($request, $filterableColumns)
+        ->search($request, $searchableColumns) // Parameter kedua masih dikirim tapi tidak digunakan
+        ->orderBy('created_at', 'desc')
+        ->paginate(10)
+        ->withQueryString();
 
-        //menggunakan scope filter
-        $pageData['dataPengaduan'] = Pengaduan::filter($request, $filterableColumns)->paginate(10);
-        return view('pages.Pengaduan.index', $pageData);
+    return view('pages.Pengaduan.index', $data);
     }
 
     /**

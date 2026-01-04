@@ -1,21 +1,9 @@
-
 @extends('layouts.admin.app')
 
 @section('content')
     {{-- start main content --}}
     <div class="content-wrapper">
-        <div class="row" id="proBanner">
-            <div class="col-12">
-                <span class="d-flex align-items-center purchase-popup">
-                    <p>Like what you see? Check out our premium version for more.</p>
-                    <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template" target="_blank"
-                        class="btn ml-auto download-button">Download Free Version</a>
-                    <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/" target="_blank"
-                        class="btn purchase-button">Upgrade To Pro</a>
-                    <i class="mdi mdi-close" id="bannerClose"></i>
-                </span>
-            </div>
-        </div>
+       
 
         <div class="d-xl-flex justify-content-between align-items-start mb-4">
             <h2 class="text-dark font-weight-bold mb-2">Data Warga</h2>
@@ -78,23 +66,65 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <label class="form-label mb-0">Cari Data</label>
                                         <div class="input-group">
                                             <input type="text" name="search" class="form-control"
-                                                value="{{ request('search') }}" placeholder="Search nama, email, atau no HP...">
+                                                   value="{{ request('search') }}" placeholder="Search nama, email, atau no HP...">
                                             <button type="submit" class="btn btn-primary">
                                                 <i class="mdi mdi-magnify"></i>
                                             </button>
-                                            @if (request('search'))
-                                                <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
-                                                    class="btn btn-outline-secondary">
-                                                    <i class="mdi mdi-close"></i>
+
+                                        </div>
+                                        <small class="text-muted">Cari berdasarkan: nama, email, atau nomor HP</small>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="d-flex gap-2">
+                                            @if(request('search') || request('jenis_kelamin'))
+                                                <a href="{{ route('warga.index') }}" class="btn btn-light flex-fill">
+                                                    <i class="mdi mdi-close-circle-outline mr-1"></i> Reset Filter
                                                 </a>
                                             @endif
+
                                         </div>
                                     </div>
                                 </form>
+
+                                <!-- Active Filter Badges -->
+                                @if(request('search') || request('jenis_kelamin'))
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center">
+
+                                                </span>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    @if(request('search'))
+                                                        <span class="badge badge-primary p-2">
+                                                            <i class="mdi mdi-magnify mr-1"></i>
+                                                            Pencarian: "{{ request('search') }}"
+                                                            <button type="button" class="btn-close-filter ml-2"
+                                                                    onclick="removeFilter('search')" style="background: none; border: none; color: white; font-size: 0.8rem;">
+                                                                ×
+                                                            </button>
+                                                        </span>
+                                                    @endif
+                                                    @if(request('jenis_kelamin'))
+                                                        <span class="badge badge-warning p-2">
+                                                            <i class="mdi mdi-gender-male-female mr-1"></i>
+                                                            Jenis Kelamin: {{ request('jenis_kelamin') }}
+                                                            <button type="button" class="btn-close-filter ml-2"
+                                                                    onclick="removeFilter('jenis_kelamin')" style="background: none; border: none; color: white; font-size: 0.8rem;">
+                                                                ×
+                                                            </button>
+                                                        </span>
+                                                    @endif
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
@@ -314,10 +344,18 @@
                                                 <div class="empty-state">
                                                     <i class="mdi mdi-account-off-outline display-4 text-muted"></i>
                                                     <h5 class="mt-3">Tidak ada data warga</h5>
-                                                    <p class="text-muted">Silakan tambah data warga baru</p>
-                                                    <a href="{{ route('warga.create') }}" class="btn btn-primary mt-2">
-                                                        <i class="mdi mdi-account-plus"></i> Tambah Data Warga
-                                                    </a>
+                                                    @if(request('search') || request('jenis_kelamin'))
+                                                        <p class="text-muted">Tidak ditemukan data dengan filter yang dipilih</p>
+                                                        <a href="{{ route('warga.index') }}"
+                                                           class="btn btn-primary mt-2">
+                                                            <i class="mdi mdi-close mr-1"></i> Reset Filter
+                                                        </a>
+                                                    @else
+                                                        <p class="text-muted">Silakan tambah data warga baru</p>
+                                                        <a href="{{ route('warga.create') }}" class="btn btn-primary mt-2">
+                                                            <i class="mdi mdi-account-plus"></i> Tambah Data Warga
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -550,6 +588,36 @@
             box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
         }
 
+        /* Styling untuk badge filter aktif */
+        .badge-primary.p-2, .badge-warning.p-2 {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.85rem;
+            padding: 6px 10px !important;
+        }
+
+        .btn-close-filter {
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            margin-left: 5px;
+            background: none !important;
+            border: none !important;
+        }
+
+        .btn-close-filter:hover {
+            opacity: 1;
+        }
+
+        .btn-sm.btn-link.text-danger {
+            font-size: 0.85rem;
+        }
+
+        /* Filter card styling */
+        .card.mb-4 .card-body {
+            padding: 1.25rem !important;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .d-flex.gap-2 {
@@ -617,6 +685,24 @@
             .d-flex.justify-content-center.gap-2 .btn i {
                 margin-right: 5px;
             }
+
+            /* Responsive untuk filter section */
+            .row.g-3.align-items-center > div {
+                margin-bottom: 1rem;
+            }
+
+            .row.g-3.align-items-center > div:last-child {
+                margin-bottom: 0;
+            }
+
+            .d-flex.flex-wrap.gap-2 {
+                gap: 0.5rem !important;
+            }
+
+            .badge-primary.p-2, .badge-warning.p-2 {
+                font-size: 0.8rem;
+                padding: 4px 8px !important;
+            }
         }
 
         /* Untuk browser yang tidak support gradient */
@@ -645,6 +731,40 @@
     // Konfirmasi hapus data
     function confirmDelete(nama) {
         return confirm(`Apakah Anda yakin ingin menghapus data warga "${nama}"?`);
+    }
+
+    // Remove individual filter
+    function removeFilter(filterName) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete(filterName);
+        window.location.href = url.toString();
+    }
+
+    // Attach remove filter functionality
+    document.querySelectorAll('.btn-close-filter').forEach(button => {
+        button.addEventListener('click', function() {
+            const filterName = this.getAttribute('onclick').match(/removeFilter\('(\w+)'\)/)[1];
+            removeFilter(filterName);
+        });
+    });
+
+    // Auto submit form saat memilih jenis kelamin
+    const jenisKelaminSelect = document.querySelector('select[name="jenis_kelamin"]');
+    if (jenisKelaminSelect) {
+        jenisKelaminSelect.addEventListener('change', function() {
+            this.closest('form').submit();
+        });
+    }
+
+    // Add enter key submit for search
+    const searchInput = document.querySelector('input[name="search"]');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.closest('form').submit();
+            }
+        });
     }
 
     // Responsive table untuk mobile
