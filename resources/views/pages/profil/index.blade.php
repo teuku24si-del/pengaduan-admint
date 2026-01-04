@@ -178,7 +178,8 @@
                                            class="social-button-right d-flex align-items-center justify-content-between p-3 mb-3"
                                            style="background: linear-gradient(135deg, #333 0%, #6e5494 100%); border-radius: 15px; color: white; text-decoration: none; transition: all 0.3s; border: none; box-shadow: 0 5px 15px rgba(110, 84, 148, 0.3);">
                                             <div class="d-flex align-items-center">
-                                                <div class="social-icon-wrapper mr-3" style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                                <!-- PERUBAHAN: Kotak kecil dihapus, hanya menyisakan teks -->
+                                                <div style="margin-right: 15px;">
                                                     <i class="mdi mdi-github" style="font-size: 1.5rem;"></i>
                                                 </div>
                                                 <div>
